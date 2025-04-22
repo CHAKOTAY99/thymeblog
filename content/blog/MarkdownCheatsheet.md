@@ -1,7 +1,12 @@
 ---
+title: Markdown cheatsheet
+description: Description of the markdown cheatsheet
 tags:
   - programming
   - code
+author: Chakotay Incorvaia
+date: 2025-04-22
+status: published
 ---
 Thanks for visiting [The Markdown Guide](https://www.markdownguide.org)!
 

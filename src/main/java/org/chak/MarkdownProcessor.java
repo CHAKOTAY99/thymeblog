@@ -14,5 +14,4 @@ public class MarkdownProcessor {
         final Node document = parser.parse(markdownDocument);
         return htmlRenderer.render(document);
     }
-
 }

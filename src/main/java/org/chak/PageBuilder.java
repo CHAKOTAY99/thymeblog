@@ -13,10 +13,11 @@ import java.util.stream.Stream;
 
 public class PageBuilder {
 
-    private final MarkdownProcessor markdownProcessor = new MarkdownProcessor();
+    private final MarkdownProcessor markdownProcessor;
     private final TemplateEngine templateEngine;
 
     public PageBuilder() {
+        markdownProcessor = new MarkdownProcessor();
         final FileTemplateResolver fileTemplateResolver = new FileTemplateResolver();
         fileTemplateResolver.setPrefix("templates/");
         fileTemplateResolver.setSuffix(".html");
@@ -29,8 +30,39 @@ public class PageBuilder {
 
     public void buildSite() throws IOException {
         final Path outputDir = Paths.get("target/generated-site");
-        Files.createDirectories(outputDir);
+//        Files.createDirectories(outputDir);
 
+        buildBlogPosts(outputDir);
+        buildIndexPage(outputDir);
+    }
+
+    private void buildBlogPosts(final Path srcOutputDir) throws IOException {
+        final Path contentPath = Paths.get("content/blog");
+
+        try(final Stream<Path> files = Files.list(contentPath)) {
+            files.filter(file -> file.getFileName().toString().endsWith(".md")).forEach(file -> {
+                try {
+                    final String markdownContent = Files.readString(file); //outputDir.resolve(file).normalize()
+                    final String htmlContent = markdownProcessor.convertToHtml(markdownContent);
+
+                    final Context context = new Context();
+                    context.setVariable("content", htmlContent);
+                    final String html = templateEngine.process("blog-post", context);
+
+                    final Path blogOutputDir = srcOutputDir.resolve(file).normalize();
+                    // same name as file for now
+                    final Path finalOutputFile = blogOutputDir.resolveSibling(blogOutputDir.getFileName().toString().replace(".md", ".html"));
+                    Files.createDirectories(finalOutputFile.getParent());
+
+                    Files.writeString(finalOutputFile, html);
+                } catch (final IOException e) {
+                    throw new RuntimeException("Failed to process blog posts " +e);
+                }
+            });
+        }
+    }
+
+    private void buildIndexPage(final Path srcOutputDir) throws IOException {
         try(final Stream<Path> files = Files.list(Paths.get("content"))) {
             files.filter(file -> file.getFileName().toString().endsWith(".md")).forEach(file -> {
                 try {
@@ -39,13 +71,16 @@ public class PageBuilder {
 
                     final Context context = new Context();
                     context.setVariable("content", htmlContent);
-                    final String html = templateEngine.process("layout", context);
+                    final String html = templateEngine.process("index", context);
 
-                    // same name as file
-                    final Path output = outputDir.resolve(file.getFileName().toString().replace(".md", ".html"));
-                    Files.writeString(output, html);
+                    final Path blogOutputDir = srcOutputDir.resolve(file).normalize();
+                    // same name as file for now
+                    final Path finalOutputFile = blogOutputDir.resolveSibling(blogOutputDir.getFileName().toString().replace(".md", ".html"));
+                    Files.createDirectories(finalOutputFile.getParent());
+
+                    Files.writeString(finalOutputFile, html);
                 } catch (final IOException e) {
-                    throw new RuntimeException(e);
+                    throw new RuntimeException("Failed to process index page " +e);
                 }
             });
         }
