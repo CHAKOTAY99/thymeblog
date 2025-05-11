@@ -6,10 +6,13 @@
 </head>
 <body>
 <header>
-    <h1>I am horrible with html and css</h1>
-    <p>I am really bad at html and css - it is driving me crazy</p>
+    <h1>Blog Index</h1>
+    <p>Blog indexBlog indexBlog indexBlog indexBlog index</p>
 </header>
 
-<main th:utext="${content}"></main>
+<li th:each="link: ${links}">
+    <a th:href="@{${link.href}}" th:text="${link.title}"></a>
+</li>
+
 </body>
 </html>
