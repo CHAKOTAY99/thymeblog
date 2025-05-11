@@ -33,11 +33,12 @@ public class PageBuilder {
 
     public void buildSite() throws IOException {
         final Path outputDir = Paths.get("target/generated-site");
-//        Files.createDirectories(outputDir); TODO I am not sure why this is here
 
-        buildPages(outputDir, "content/blog", "blog-post");
         buildPages(outputDir, "content", "index");
-        makeIndexList(outputDir,"content/blog", "blog-index");
+        buildPages(outputDir, "content/blog", "blog-post");
+        buildPages(outputDir, "content/projects", "blog-post");
+        makeIndexList(outputDir,"content/blog", "blog-index", "blog-index");
+        makeIndexList(outputDir,"content/projects", "blog-index", "project-index");
     }
 
     /**
@@ -47,7 +48,9 @@ public class PageBuilder {
      * @param template - which template to use
      * @throws IOException
      */
-    private void buildPages(final Path srcOutputDir, final String sourcePath, final String template) throws IOException {
+    private void buildPages(final Path srcOutputDir,
+                            final String sourcePath,
+                            final String template) throws IOException {
         final Path contentPath = Paths.get(sourcePath);
 
         try(final Stream<Path> files = Files.list(contentPath)) {
@@ -79,7 +82,7 @@ public class PageBuilder {
         }
     }
 
-    private void makeIndexList(final Path srcOutputDir, final String blogDir, final String template) throws IOException {
+    private void makeIndexList(final Path srcOutputDir, final String blogDir, final String template, final String indexName) throws IOException {
 
         final List<Map<String, String>> links = new ArrayList<>();
         final Path contentPath = Paths.get(blogDir);
@@ -96,6 +99,6 @@ public class PageBuilder {
 
         final Path outputDir = srcOutputDir.normalize();
 
-        Files.writeString(Paths.get(outputDir + "/blog-index.html"), html);
+        Files.writeString(Paths.get(outputDir + "/"+indexName+".html"), html);
     }
 }
