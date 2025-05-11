@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,23 +38,25 @@ public class PageBuilder {
         buildPages(outputDir, "content", "index");
         buildPages(outputDir, "content/blog", "blog-post");
         buildPages(outputDir, "content/projects", "blog-post");
-        makeIndexList(outputDir,"content/blog", "blog-index", "blog-index");
-        makeIndexList(outputDir,"content/projects", "blog-index", "project-index");
+        makeIndexList(outputDir, "content/blog", "blog-index", "blog-index");
+        makeIndexList(outputDir, "content/projects", "blog-index", "project-index");
+        copyStaticAssets(outputDir, "assets");
     }
 
     /**
-     * Handles building the pages
+     * Handles building the pages by going through the provided directory (subdirectories are ignored)
+     * and creates a .html copy of the .md files.
+     *
      * @param srcOutputDir - where to output the files
-     * @param sourcePath - where to retrieve the .md files from
-     * @param template - which template to use
-     * @throws IOException
+     * @param sourcePath   - where to retrieve the .md files from
+     * @param template     - which template to use
      */
     private void buildPages(final Path srcOutputDir,
                             final String sourcePath,
                             final String template) throws IOException {
         final Path contentPath = Paths.get(sourcePath);
 
-        try(final Stream<Path> files = Files.list(contentPath)) {
+        try (final Stream<Path> files = Files.list(contentPath)) {
             files.filter(file -> file.getFileName().toString().endsWith(".md")).forEach(file -> {
                 try {
                     final String markdownContent = Files.readString(file); //outputDir.resolve(file).normalize()
@@ -66,7 +69,7 @@ public class PageBuilder {
                     final Path blogOutputDir = srcOutputDir.resolve(file).normalize();
                     // same name as file for now
                     final Path finalOutputFile;
-                    if(template.equals("index")) {
+                    if (template.equals("index")) {
                         finalOutputFile = srcOutputDir.resolve(blogOutputDir.getFileName().toString().replace(".md", ".html"));
                         Files.createDirectories(finalOutputFile.getParent());
                     } else {
@@ -76,21 +79,35 @@ public class PageBuilder {
 
                     Files.writeString(finalOutputFile, html);
                 } catch (final IOException e) {
-                    throw new RuntimeException("Failed to process "+template+" " +e);
+                    throw new RuntimeException("Failed to process " + template + " " + e);
                 }
             });
         }
     }
 
-    private void makeIndexList(final Path srcOutputDir, final String blogDir, final String template, final String indexName) throws IOException {
+
+    /**
+     * Handles building the indexes Handles through the provided directory (subdirectories are ignored)
+     * and creates a list of links to the .md files relative to the parent path. They are all then placed in a .html page
+     * with the provided {@param indexName}
+     *
+     * @param srcOutputDir - where to output the files
+     * @param blogDir      - where to retrieve the .md files from
+     * @param template     - which template to use
+     * @param indexName    - what to call the index
+     */
+    private void makeIndexList(final Path srcOutputDir, final String blogDir, final String template, final String indexName) {
 
         final List<Map<String, String>> links = new ArrayList<>();
         final Path contentPath = Paths.get(blogDir);
-        try(final Stream<Path> files = Files.list(contentPath)) {
+
+        try (final Stream<Path> files = Files.walk(contentPath)) {
             files.filter(file -> file.getFileName().toString().endsWith(".md")).forEach(file -> {
                 final String outputPath = file.toString().replace(".md", ".html");
                 links.add(Map.of("href", outputPath, "title", file.getFileName().toString()));
             });
+        } catch (final IOException e) {
+            throw new RuntimeException("Failed to make index of " + template, e);
         }
 
         final Context context = new Context();
@@ -99,6 +116,37 @@ public class PageBuilder {
 
         final Path outputDir = srcOutputDir.normalize();
 
-        Files.writeString(Paths.get(outputDir + "/"+indexName+".html"), html);
+        try {
+            Files.writeString(Paths.get(outputDir + "/" + indexName + ".html"), html);
+        } catch (final IOException e) {
+            throw new RuntimeException("Failed to write index file " + template, e);
+        }
+    }
+
+    /**
+     * Handles the copying of static assets such as css and images
+     */
+    private void copyStaticAssets(final Path srcOutputDir, final String assetDir) {
+
+        final Path assetPath = Paths.get(assetDir);
+
+        try (Stream<Path> paths = Files.walk(assetPath)) {
+            paths.forEach(sourceFile -> {
+                try {
+                    final Path destination = srcOutputDir.resolve(sourceFile);
+
+                    if (Files.isDirectory(sourceFile)) {
+                        Files.createDirectories(destination);
+                    } else {
+                        Files.createDirectories(destination.getParent());
+                        Files.copy(sourceFile, destination, StandardCopyOption.REPLACE_EXISTING);
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException("Failed to copy over static assets " + paths, e);
+                }
+            });
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to copy over static assets ", e);
+        }
     }
 }

@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Static Site</title>
-</head>
+<head th:replace="head-fragment :: head"></head>
+
 <body>
 <header>
     <h1>Index page</h1>
@@ -11,6 +9,6 @@
     <a th:href="@{project-index.html}">project index</a>
 </header>
 
-<main th:utext="${content}"></main>
+<main class="container" th:utext="${content}"></main>
 </body>
 </html>
