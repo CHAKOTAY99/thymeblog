@@ -1,13 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html th:lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="head-fragment :: head"></head>
 
 <body>
-<header>
-    <h1>Index page</h1>
-    <a th:href="@{blog-index.html}">blog index</a>
-    <a th:href="@{project-index.html}">project index</a>
-</header>
+<header th:insert="navbar-fragment :: nav"></header>
 
 <main class="container" th:utext="${content}"></main>
 </body>

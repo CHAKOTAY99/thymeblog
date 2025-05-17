@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html th:lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="head-fragment :: head"></head>
 
 <body>
-<header>
-    <h1>I am horrible with html and css</h1>
-    <p>I am really bad at html and css - it is driving me crazy</p>
-</header>
+<header th:insert="navbar-fragment :: nav"></header>
 
-<main th:utext="${content}"></main>
+<main class="container" th:utext="${content}"></main>
 </body>
 </html>

@@ -66,6 +66,8 @@ public class PageBuilder {
                     context.setVariable("content", htmlContent);
                     final String html = templateEngine.process(template, context);
 
+                    // TODO if the file is a draft, do not proceed.
+
                     final Path blogOutputDir = srcOutputDir.resolve(file).normalize();
                     // same name as file for now
                     final Path finalOutputFile;

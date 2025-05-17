@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html th:lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="head-fragment :: head"></head>
 
 <body>
-<header>
-    <h1>Blog Index</h1>
-    <p>Blog indexBlog indexBlog indexBlog indexBlog index</p>
-</header>
+<header th:insert="navbar-fragment :: nav"></header>
 
-<li th:each="link: ${links}">
+<li class="container" th:each="link: ${links}">
     <a th:href="@{${link.href}}" th:text="${link.title}"></a>
 </li>
 
