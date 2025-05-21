@@ -24,7 +24,10 @@ public record Metadata(String title,
         final boolean draft = Boolean.parseBoolean(getElement(extractedMetadata, "draft"));
         final List<String> tags = extractedMetadata.getOrDefault("tags", List.of());
 
-        return new Metadata(title, description, author, postDate, new HashSet<>(tags), draft);
+        return new Metadata(title == null ? null : title.replaceAll("^\"|\"$", ""),
+                description == null ? null : description.replaceAll("^\"|\"$", ""),
+                author == null ? null : author.replaceAll("^\"|\"$", ""),
+                postDate, new HashSet<>(tags), draft);
     }
 
     protected static boolean isDraft(final Map<String, List<String>> extractedMetadata) {

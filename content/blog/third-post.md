@@ -3,7 +3,11 @@ title: "The Importance of Communication in Everyday Life"
 description: "How strong communication skills can improve relationships, work, and well-being."
 author: "Your Name"
 date: 2025-05-21
-tags: ["communication", "life-skills", "self-improvement", "relationships"]
+tags: 
+  - communication
+  - life-skills
+  - self-improvement
+  - relationships
 draft: false
 ---
 

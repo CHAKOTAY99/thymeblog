@@ -3,7 +3,12 @@ title: "How to Make a Simple and Delicious Vegetarian Sandwich"
 description: "A quick guide to building a fresh, healthy sandwich with common ingredients."
 author: "Your Name"
 date: 2025-03-21
-tags: ["vegetarian", "recipe", "food", "project"]
+tags: 
+  - vegetarian
+  - recipe
+  - food
+  - project
+  - bread
 draft: false
 ---
 

@@ -8,11 +8,11 @@
 <div class="container">
     <p>Welcome to the blog! Here you’ll find a collection of posts covering everything from tutorials and personal
         projects to thoughts on technology, creativity and just random things that pop into my head.</p>
-    <p>Feel free to browse through the latest entries below;</p>
+    <p>Feel free to browse through the latest entries below:</p>
 </div>
 
 <ul class="container" th:each="link: ${links}">
-    <li  style="list-style-type: none;">
+    <li style="list-style-type: none;">
         <article>
             <h6>
                 <a th:href="@{${link.href}}" th:text="${link.title}"></a>
@@ -21,6 +21,11 @@
                 </small>
             </h6>
             <small th:text="${link.description}"></small>
+            <p>
+                <i>
+                    <small>#tags: </small> <small th:text="${#strings.setJoin(link.tags, ', ')}"></small>
+                </i>
+            </p>
         </article>
     </li>
 </ul>

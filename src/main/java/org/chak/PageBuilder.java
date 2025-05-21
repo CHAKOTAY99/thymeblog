@@ -14,6 +14,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public class PageBuilder {
@@ -120,8 +121,8 @@ public class PageBuilder {
                 if (!metadata.draft()) {
                     final String outputPath = file.toString().replace(".md", ".html");
                     links.add(Map.of("href", outputPath,
-                            "title", metadata.title().replaceAll("^\"|\"$", ""),
-                            "description", metadata.description().replaceAll("^\"|\"$", ""),
+                            "title", metadata.title(),
+                            "description", metadata.description(),
                             "date", metadata.date().toString(),
                             "tags", metadata.tags()));
                 }

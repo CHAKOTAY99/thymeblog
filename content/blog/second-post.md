@@ -3,7 +3,11 @@ title: "Why Dogs Make the Best Companions"
 description: "A heartfelt look at what makes dogs so special and why they're often called 'man's best friend.'"
 author: "Your Name"
 date: 2025-02-21
-tags: ["dogs", "pets", "lifestyle", "animals"]
+tags: 
+  - dogs
+  - pets
+  - lifestyle
+  - animals
 draft: true
 ---
 
