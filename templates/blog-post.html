@@ -5,6 +5,8 @@
 <body>
 <header th:insert="navbar-fragment :: nav"></header>
 
-<main class="container" th:utext="${content}"></main>
+<main class="container">
+    <article th:utext="${content}"></article>
+</main>
 </body>
 </html>

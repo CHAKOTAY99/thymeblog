@@ -6,6 +6,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,7 +40,7 @@ public class PageBuilder {
         buildPages(outputDir, "content/blog", "blog-post");
         buildPages(outputDir, "content/projects", "blog-post");
         makeIndexList(outputDir, "content/blog", "blog-index", "blog-index");
-        makeIndexList(outputDir, "content/projects", "blog-index", "project-index");
+        makeIndexList(outputDir, "content/projects", "project-index", "project-index");
         copyStaticAssets(outputDir, "assets");
     }
 
@@ -60,26 +61,30 @@ public class PageBuilder {
             files.filter(file -> file.getFileName().toString().endsWith(".md")).forEach(file -> {
                 try {
                     final String markdownContent = Files.readString(file); //outputDir.resolve(file).normalize()
-                    final String htmlContent = markdownProcessor.convertToHtml(markdownContent);
+                    final MarkdownPage markdownPage = markdownProcessor.convertToHtml(markdownContent);
 
-                    final Context context = new Context();
-                    context.setVariable("content", htmlContent);
-                    final String html = templateEngine.process(template, context);
+                    final Metadata metadata = markdownPage.metadata();
+                    if(!metadata.draft()) {
 
-                    // TODO if the file is a draft, do not proceed.
+                        final Context context = new Context();
+                        context.setVariable("content", markdownPage.html());
+                        context.setVariable("metadata", metadata);
 
-                    final Path blogOutputDir = srcOutputDir.resolve(file).normalize();
-                    // same name as file for now
-                    final Path finalOutputFile;
-                    if (template.equals("index")) {
-                        finalOutputFile = srcOutputDir.resolve(blogOutputDir.getFileName().toString().replace(".md", ".html"));
-                        Files.createDirectories(finalOutputFile.getParent());
-                    } else {
-                        finalOutputFile = blogOutputDir.resolveSibling(blogOutputDir.getFileName().toString().replace(".md", ".html"));
-                        Files.createDirectories(finalOutputFile.getParent());
+                        final String html = templateEngine.process(template, context);
+
+                        final Path blogOutputDir = srcOutputDir.resolve(file).normalize();
+                        // same name as file for now
+                        final Path finalOutputFile;
+                        if (template.equals("index")) {
+                            finalOutputFile = srcOutputDir.resolve(blogOutputDir.getFileName().toString().replace(".md", ".html"));
+                            Files.createDirectories(finalOutputFile.getParent());
+                        } else {
+                            finalOutputFile = blogOutputDir.resolveSibling(blogOutputDir.getFileName().toString().replace(".md", ".html"));
+                            Files.createDirectories(finalOutputFile.getParent());
+                        }
+
+                        Files.writeString(finalOutputFile, html);
                     }
-
-                    Files.writeString(finalOutputFile, html);
                 } catch (final IOException e) {
                     throw new RuntimeException("Failed to process " + template + " " + e);
                 }
@@ -100,13 +105,26 @@ public class PageBuilder {
      */
     private void makeIndexList(final Path srcOutputDir, final String blogDir, final String template, final String indexName) {
 
-        final List<Map<String, String>> links = new ArrayList<>();
+        final List<Map<String, Object>> links = new ArrayList<>();
         final Path contentPath = Paths.get(blogDir);
 
         try (final Stream<Path> files = Files.walk(contentPath)) {
             files.filter(file -> file.getFileName().toString().endsWith(".md")).forEach(file -> {
-                final String outputPath = file.toString().replace(".md", ".html");
-                links.add(Map.of("href", outputPath, "title", file.getFileName().toString()));
+                final Metadata metadata;
+                try {
+                    final String markdownContent = Files.readString(file);
+                    metadata = markdownProcessor.getMetadata(markdownContent);
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
+                if (!metadata.draft()) {
+                    final String outputPath = file.toString().replace(".md", ".html");
+                    links.add(Map.of("href", outputPath,
+                            "title", metadata.title().replaceAll("^\"|\"$", ""),
+                            "description", metadata.description().replaceAll("^\"|\"$", ""),
+                            "date", metadata.date().toString(),
+                            "tags", metadata.tags()));
+                }
             });
         } catch (final IOException e) {
             throw new RuntimeException("Failed to make index of " + template, e);

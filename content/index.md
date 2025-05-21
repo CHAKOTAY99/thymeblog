@@ -1,71 +1,56 @@
 ---
-title: Index
-description: Index index
+title: "Welcome to My Blog"
+description: "Thoughts, tutorials, and projects on software development, technology, and more."
+author: "Your Name"
 tags:
-  - index
-  - code
-author: Chakotay Incorvaia
-date: 2025-04-22
-status: published
+- index
+- code
+date: 2025-05-21
+draft: false
 ---
 
-# This is the index
+# 👋 Hello, and Welcome!
 
+This is the front page of my personal blog, where I write about:
 
-| Syntax | Description |
-| ----------- | ----------- |
-| Header | Title |
-| Paragraph | Text |
+- 💻 Software engineering
+- 📚 Learning new technologies
+- 🔧 Projects and experiments
+- 🎯 Productivity and focus
 
-### Fenced Code Block
+---
 
-```
-{
-  "firstName": "John",
-  "lastName": "Smith",
-  "age": 25
-}
-```
+## ✨ Latest Posts
 
-### Footnote
+Here are some of the most recent articles:
 
-Here's a sentence with a footnote. [^1]
+- [Understanding Java Records](./posts/java-records.md) — A deep dive into Java's `record` keyword.
+- [Static Site Generation with Angular](./posts/angular-ssg.md) — How I built this site using Angular and Markdown.
+- [Switching from Selenium to Playwright](./posts/playwright-migration.md) — Lessons learned from modernizing our test stack.
 
-[^1]: This is the footnote.
+---
 
-### Heading ID
+## 🧰 Featured Tools and Technologies
 
-### My Great Heading {#custom-id}
+I'm currently using:
 
-### Definition List
+- **Angular** for the front-end
+- **Strapi** for content management
+- **Markdown** for content writing
+- **PrimeNG** for UI components
 
-term
-: definition
+---
 
-### Strikethrough
+## 📬 Get in Touch
 
-~~The world is flat.~~
+I'm always happy to hear feedback, suggestions, or collaboration ideas.
 
-### Task List
+- 📧 Email: your@email.com
+- 🐙 GitHub: [yourusername](https://github.com/yourusername)
+- 📝 Subscribe to the [RSS Feed](./rss.xml)
 
-- [x] Write the press release
-- [ ] Update the website
-- [ ] Contact the media
+---
 
-### Emoji
+> “The only way to learn a new programming language is by writing programs in it.” – Dennis Ritchie
 
-That is so funny! :joy:
-
-(See also [Copying and Pasting Emoji](https://www.markdownguide.org/extended-syntax/#copying-and-pasting-emoji))
-
-### Highlight
-
-I need to highlight these ==very important words==.
-
-### Subscript
-
-H~2~O
-
-### Superscript
-
-X^2^
+Thanks for visiting!

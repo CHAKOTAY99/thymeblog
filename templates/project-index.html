@@ -6,20 +6,17 @@
 <header th:insert="navbar-fragment :: nav"></header>
 
 <div class="container">
-    <p>Welcome to the blog! Here you’ll find a collection of posts covering everything from tutorials and personal
-        projects to thoughts on technology, creativity and just random things that pop into my head.</p>
-    <p>Feel free to browse through the latest entries below;</p>
+    <p>The following are projects are worked on. Please check the tags for the relevant technologies/approaches used.</p>
+    <p>Feedback is always welcome! Please contact me through my socials.</p>
 </div>
 
 <ul class="container" th:each="link: ${links}">
     <li  style="list-style-type: none;">
         <article>
-            <h6>
-                <a th:href="@{${link.href}}" th:text="${link.title}"></a>
+            <h6><a th:href="@{${link.href}}" th:text="${link.title}"></a>
                 <small> -
                     <time th:text="${link.date}"></time>
-                </small>
-            </h6>
+                </small></h6>
             <small th:text="${link.description}"></small>
         </article>
     </li>
