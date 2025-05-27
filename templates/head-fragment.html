@@ -1,7 +1,28 @@
 <!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
-  <title>My Site</title>
   <link rel="stylesheet" href="/assets/css/pico-main/css/pico.jade.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- TODO WIP -->
+  <title th:text="${title}">My Site</title>
+  <meta name="description" th:attr="content=${description}">
+
+  <link rel="canonical" th:href="${url}">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" th:attr="content=${title}">
+  <meta property="og:description" th:attr="content=${description}">
+  <meta property="og:url" th:attr="content=${url}">
+  <meta property="og:image" th:attr="content=${image}">
+  <meta property="og:site_name" content="Your Blog Name">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" th:attr="content=${title}">
+  <meta name="twitter:description" th:attr="content=${description}">
+  <meta name="twitter:image" th:attr="content=${image}">
+
+  <!-- TODO: Insert favicon and images -->
 </head>
