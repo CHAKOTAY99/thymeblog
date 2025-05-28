@@ -40,3 +40,9 @@ Stay tuned for more posts soon!
 
 > _“Every expert was once a beginner.”_ – Helen Hayes
 
+Have you considered reading my second post [linked through markdown?](second-post.md) - doesn't work
+
+Have you considered reading my second post [linked through html?](why-dogs-make-the-best-companions.html) - works but needs to be manually turned into slug
+
+
+
