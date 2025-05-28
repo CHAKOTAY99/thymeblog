@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html th:lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<head th:replace="head-fragment :: head"></head>
+<head th:replace="head-fragment :: head(
+    'Personal Projects',
+    'This section contains all the personal projects',
+    'Author',
+    'Website',
+    ${metadata.slug()},
+    null)">
 
 <body>
 <header th:insert="navbar-fragment :: nav"></header>

@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html th:lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="head-fragment :: head"></head>
+<head th:replace="head-fragment :: head(
+    ${metadata.title},
+    ${metadata.description},
+    ${metadata.author},
+    'article',
+    '/index.html',
+    null)">
 
 <body>
 <header th:insert="navbar-fragment :: nav"></header>

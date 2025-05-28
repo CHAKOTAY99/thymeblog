@@ -14,7 +14,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 public class PageBuilder {
@@ -80,7 +79,7 @@ public class PageBuilder {
                             finalOutputFile = srcOutputDir.resolve(blogOutputDir.getFileName().toString().replace(".md", ".html"));
                             Files.createDirectories(finalOutputFile.getParent());
                         } else {
-                            finalOutputFile = blogOutputDir.resolveSibling(blogOutputDir.getFileName().toString().replace(".md", ".html"));
+                            finalOutputFile = blogOutputDir.resolveSibling(metadata.slug());
                             Files.createDirectories(finalOutputFile.getParent());
                         }
 
@@ -119,7 +118,8 @@ public class PageBuilder {
                     throw new UncheckedIOException(e);
                 }
                 if (!metadata.draft()) {
-                    final String outputPath = file.toString().replace(".md", ".html");
+                    // Get the parent of the markdown file ("blog/content") and resolve it with the slug title
+                    final String outputPath = file.getParent().resolve(metadata.slug()).toString();
                     links.add(Map.of("href", outputPath,
                             "title", metadata.title(),
                             "description", metadata.description(),
@@ -131,14 +131,17 @@ public class PageBuilder {
             throw new RuntimeException("Failed to make index of " + template, e);
         }
 
+        final Metadata metadata = new Metadata(null, null, null, null, null, false, SlugUtil.slugify(indexName));
         final Context context = new Context();
         context.setVariable("links", links);
+        context.setVariable("metadata", metadata);
+
         final String html = templateEngine.process(template, context);
 
         final Path outputDir = srcOutputDir.normalize();
 
         try {
-            Files.writeString(Paths.get(outputDir + "/" + indexName + ".html"), html);
+            Files.writeString(outputDir.resolve(metadata.slug()), html);
         } catch (final IOException e) {
             throw new RuntimeException("Failed to write index file " + template, e);
         }

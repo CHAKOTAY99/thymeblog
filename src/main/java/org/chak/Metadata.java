@@ -12,7 +12,8 @@ public record Metadata(String title,
                        String author,
                        LocalDate date,
                        Set<String> tags,
-                       boolean draft) {
+                       boolean draft,
+                       String slug) {
 
     protected static Metadata parse(final Map<String, List<String>> extractedMetadata) {
         final String title = getElement(extractedMetadata, "title");
@@ -27,13 +28,15 @@ public record Metadata(String title,
         return new Metadata(title == null ? null : title.replaceAll("^\"|\"$", ""),
                 description == null ? null : description.replaceAll("^\"|\"$", ""),
                 author == null ? null : author.replaceAll("^\"|\"$", ""),
-                postDate, new HashSet<>(tags), draft);
+                postDate, new HashSet<>(tags), draft, SlugUtil.slugify(title));
     }
 
-    protected static boolean isDraft(final Map<String, List<String>> extractedMetadata) {
-        return Boolean.parseBoolean(getElement(extractedMetadata, "draft"));
-    }
-
+    /**
+     * Method used to extract a particular element from the map of extracted Metadata provided by the flexmark library
+     * @param extractedMetadata metadata provided by flexmark library
+     * @param key element to be retrieved
+     * @return extracted value
+     */
     private static String getElement(final Map<String, List<String>> extractedMetadata, final String key) {
         final List<String> values = extractedMetadata.get(key);
 
