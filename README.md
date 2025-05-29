@@ -25,6 +25,7 @@ In no particular order
 11. Run the code as a jar file/other format and pass it the files in a structure - see standalone structure - LARGE TODO // most likely to be done
 12. Customizability? Changing meta tags, favicons, css? Most likely will never be implemented
 13. Css light and dark mode
+14. Introduce a base layout
 
 
 ## Standalone system
