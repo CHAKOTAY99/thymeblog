@@ -66,9 +66,9 @@ public class PageBuilder {
                         final String html = templateEngine.process(metadata.template(), context);
 
                         final Path blogOutputDir = srcOutputDir.resolve(file).normalize();
-                        // same name as file for now
                         final Path finalOutputFile;
-                        if (metadata.template().equals("index.html")) {
+                        // Place index file in the root otherwise follow the pattern
+                        if (file.getFileName().toString().equals("index.md") && metadata.template().equals("index.html")) {
                             finalOutputFile = srcOutputDir.resolve(blogOutputDir.getFileName().toString().replace(".md", ".html"));
                             Files.createDirectories(finalOutputFile.getParent());
                         } else {

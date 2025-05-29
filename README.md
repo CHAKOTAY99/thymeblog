@@ -39,3 +39,8 @@ How the nav will be calculated in the desired order is still WIP
 Each folder would have it's own index and that would be where the nav would access it
 
 About-me and CV would be two indexes in their own empty folders
+
+TODO - 3 Separate builders; Static assets, index pages and blog pages.
+root index page should just link to other index pages
+
+Common layout with the navbar fragement will have to be created so the navbar is filled in
