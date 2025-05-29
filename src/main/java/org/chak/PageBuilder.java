@@ -10,7 +10,6 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,12 +35,11 @@ public class PageBuilder {
     public void buildSite() throws IOException {
         final Path outputDir = Paths.get("target/generated-site");
 
-        buildPages(outputDir, "content", "index");
-        buildPages(outputDir, "content/blog", "blog-post");
-        buildPages(outputDir, "content/projects", "blog-post");
+        buildPages(outputDir, "content");
+        buildPages(outputDir, "content/blog");
+        buildPages(outputDir, "content/projects");
         makeIndexList(outputDir, "content/blog", "blog-index", "blog-index");
         makeIndexList(outputDir, "content/projects", "project-index", "project-index");
-        copyStaticAssets(outputDir, "assets");
     }
 
     /**
@@ -50,11 +48,9 @@ public class PageBuilder {
      *
      * @param srcOutputDir - where to output the files
      * @param sourcePath   - where to retrieve the .md files from
-     * @param template     - which template to use
      */
     private void buildPages(final Path srcOutputDir,
-                            final String sourcePath,
-                            final String template) throws IOException {
+                            final String sourcePath) throws IOException {
         final Path contentPath = Paths.get(sourcePath);
 
         try (final Stream<Path> files = Files.list(contentPath)) {
@@ -70,12 +66,12 @@ public class PageBuilder {
                         context.setVariable("content", markdownPage.html());
                         context.setVariable("metadata", metadata);
 
-                        final String html = templateEngine.process(template, context);
+                        final String html = templateEngine.process(metadata.template(), context);
 
                         final Path blogOutputDir = srcOutputDir.resolve(file).normalize();
                         // same name as file for now
                         final Path finalOutputFile;
-                        if (template.equals("index")) {
+                        if (metadata.template().equals("index.html")) {
                             finalOutputFile = srcOutputDir.resolve(blogOutputDir.getFileName().toString().replace(".md", ".html"));
                             Files.createDirectories(finalOutputFile.getParent());
                         } else {
@@ -86,7 +82,7 @@ public class PageBuilder {
                         Files.writeString(finalOutputFile, html);
                     }
                 } catch (final IOException e) {
-                    throw new RuntimeException("Failed to process " + template + " " + e);
+                    throw new RuntimeException("Failed to process " + file.getFileName() + " " + e);
                 }
             });
         }
@@ -131,7 +127,7 @@ public class PageBuilder {
             throw new RuntimeException("Failed to make index of " + template, e);
         }
 
-        final Metadata metadata = new Metadata(null, null, null, null, null, false, SlugUtil.slugify(indexName));
+        final Metadata metadata = new Metadata(null, null, null, null, null, false, SlugUtil.slugify(indexName), null);
         final Context context = new Context();
         context.setVariable("links", links);
         context.setVariable("metadata", metadata);
@@ -144,33 +140,6 @@ public class PageBuilder {
             Files.writeString(outputDir.resolve(metadata.slug()), html);
         } catch (final IOException e) {
             throw new RuntimeException("Failed to write index file " + template, e);
-        }
-    }
-
-    /**
-     * Handles the copying of static assets such as css and images
-     */
-    private void copyStaticAssets(final Path srcOutputDir, final String assetDir) {
-
-        final Path assetPath = Paths.get(assetDir);
-
-        try (Stream<Path> paths = Files.walk(assetPath)) {
-            paths.forEach(sourceFile -> {
-                try {
-                    final Path destination = srcOutputDir.resolve(sourceFile);
-
-                    if (Files.isDirectory(sourceFile)) {
-                        Files.createDirectories(destination);
-                    } else {
-                        Files.createDirectories(destination.getParent());
-                        Files.copy(sourceFile, destination, StandardCopyOption.REPLACE_EXISTING);
-                    }
-                } catch (IOException e) {
-                    throw new RuntimeException("Failed to copy over static assets " + paths, e);
-                }
-            });
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to copy over static assets ", e);
         }
     }
 }

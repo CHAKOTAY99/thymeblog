@@ -9,6 +9,7 @@ tags:
   - self-improvement
   - relationships
 draft: false
+template: blog-post.html
 ---
 
 # 🗣️ The Importance of Communication in Everyday Life

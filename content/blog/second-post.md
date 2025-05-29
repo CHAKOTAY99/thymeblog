@@ -9,6 +9,7 @@ tags:
   - lifestyle
   - animals
 draft: false
+template: blog-post.html
 ---
 
 # 🐶 Why Dogs Make the Best Companions

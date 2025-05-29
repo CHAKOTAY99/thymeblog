@@ -9,6 +9,7 @@ tags:
 - wildlife
 - animals
 draft: true
+template: blog-post.html
 ---
 
 # 🐦 The Fascinating World of Birds

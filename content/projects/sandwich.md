@@ -10,6 +10,7 @@ tags:
   - project
   - bread
 draft: false
+template: blog-post.html
 ---
 
 # 🥪 How to Make a Simple and Delicious Vegetarian Sandwich

@@ -8,6 +8,7 @@ tags:
   - personal
   - blog
 draft: false
+template: blog-post.html
 ---
 
 # 👋 Hello World!

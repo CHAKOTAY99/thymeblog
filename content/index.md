@@ -7,6 +7,7 @@ tags:
 - code
 date: 2025-05-21
 draft: false
+template: index.html
 ---
 
 # 👋 Hello, and Welcome!
