@@ -36,8 +36,6 @@ public class PageBuilder {
         final Path outputDir = Paths.get("target/generated-site");
 
         buildPages(outputDir, "content");
-        buildPages(outputDir, "content/blog");
-        buildPages(outputDir, "content/projects");
         makeIndexList(outputDir, "content/blog", "blog-index", "blog-index");
         makeIndexList(outputDir, "content/projects", "project-index", "project-index");
     }
@@ -51,9 +49,8 @@ public class PageBuilder {
      */
     private void buildPages(final Path srcOutputDir,
                             final String sourcePath) throws IOException {
-        final Path contentPath = Paths.get(sourcePath);
 
-        try (final Stream<Path> files = Files.list(contentPath)) {
+        try (final Stream<Path> files = Files.walk(Paths.get(sourcePath))) {
             files.filter(file -> file.getFileName().toString().endsWith(".md")).forEach(file -> {
                 try {
                     final String markdownContent = Files.readString(file); //outputDir.resolve(file).normalize()
@@ -90,7 +87,7 @@ public class PageBuilder {
 
 
     /**
-     * Handles building the indexes Handles through the provided directory (subdirectories are ignored)
+     * Handles building the indexes through the provided directory (subdirectories are ignored)
      * and creates a list of links to the .md files relative to the parent path. They are all then placed in a .html page
      * with the provided {@param indexName}
      *

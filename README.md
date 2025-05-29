@@ -38,5 +38,4 @@ How the nav will be calculated in the desired order is still WIP
 
 Each folder would have it's own index and that would be where the nav would access it
 
-About-me and CV would be two indexes in their own empty folders 
-
+About-me and CV would be two indexes in their own empty folders
