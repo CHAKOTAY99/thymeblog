@@ -1,32 +1,31 @@
 <!DOCTYPE html>
-<html th:lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="head-fragment :: head(
-    ${metadata.title},
-    ${metadata.description},
-    ${metadata.author},
-    'article',
-    ${metadata.slug()},
-    null)">
+<html th:lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout :: layout(${metadata.title},
+      ${metadata.description},
+      ${metadata.author},
+      'article',
+      ${metadata.slug},
+      null,
+      ~{::main})">
 
-<body>
-<header th:insert="navbar-fragment :: nav"></header>
-
-<main class="container">
-    <article>
-        <header>
-            <h1 th:text="${metadata.title}"></h1>
-            <h5 th:text="${metadata.description}"></h5>
-            <p>
-                <small>
-                    By <span th:text="${metadata.author}">Author Name</span> on <time th:text="${metadata.date}"></time>
-                </small>
-            </p>
-            <p>
-                <small>#tags: </small> <small th:text="${#strings.setJoin(metadata.tags(), ', ')}"></small>
-            </p>
-        </header>
-        <section  th:utext="${content}"></section>
-    </article>
-</main>
-</body>
+<th:block th:fragment="main">
+    <main class="container">
+        <article>
+            <header>
+                <h1 th:text="${metadata.title}"></h1>
+                <h5 th:text="${metadata.description}"></h5>
+                <p>
+                    <small>
+                        By <span th:text="${metadata.author}">Author Name</span> on
+                        <time th:text="${metadata.date}"></time>
+                    </small>
+                </p>
+                <p>
+                    <small>#tags: </small> <small th:text="${#strings.setJoin(metadata.tags(), ', ')}"></small>
+                </p>
+            </header>
+            <section th:utext="${content}"></section>
+        </article>
+    </main>
+</th:block>
 </html>
