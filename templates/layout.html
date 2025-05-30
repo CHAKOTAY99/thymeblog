@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html
+      th:lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(title, description, author, type, slug, image, main)">
+<head th:replace="head-fragment :: head(
+    ${title},
+    ${description},
+    ${author},
+    ${type},
+    ${slug},
+    ${image})">
+<body>
+<header th:insert="navbar-fragment :: nav"></header>
+
+<th:block th:replace="${main}" />
+
+<footer class="container">
+    <p>&copy; 2025 Your Name</p>
+</footer>
+</body>
+</html>
