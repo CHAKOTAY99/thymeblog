@@ -25,7 +25,7 @@ In no particular order
 11. Run the code as a jar file/other format and pass it the files in a structure - see standalone structure - LARGE TODO // most likely to be done
 12. Customizability? Changing meta tags, favicons, css? Most likely will never be implemented
 13. Css light and dark mode
-14. Introduce a base layout
+14. ~~Introduce a base layout~~
 
 
 ## Standalone system
@@ -43,4 +43,4 @@ About-me and CV would be two indexes in their own empty folders
 TODO - 3 Separate builders; Static assets, index pages and blog pages.
 root index page should just link to other index pages
 
-Common layout with the navbar fragement will have to be created so the navbar is filled in
+Common layout with the navbar fragment will have to be created so the navbar is filled in
