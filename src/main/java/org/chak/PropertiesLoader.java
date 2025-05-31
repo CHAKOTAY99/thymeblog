@@ -11,14 +11,14 @@ import java.nio.file.Path;
 
 public class PropertiesLoader {
 
-    private PropertiesLoader() {};
+    private PropertiesLoader() {}
 
-    public static Properties loadProperties(final Path propertiesFilePath) throws IOException {
+    public static SiteProperties loadProperties(final Path propertiesFilePath) throws IOException {
         try(final InputStream in = Files.newInputStream(propertiesFilePath)) {
             final LoaderOptions options = new LoaderOptions();
-            final Constructor constructor = new Constructor(Properties.class, options);
-            final Yaml properties = new Yaml(constructor);
-            return properties.load(in);
+            final Constructor constructor = new Constructor(SiteProperties.class, options);
+            final Yaml yamlReader = new Yaml(constructor);
+            return yamlReader.load(in);
         } catch (IOException e) {
             throw new RuntimeException("Failed to load config from: " + propertiesFilePath, e);
         }

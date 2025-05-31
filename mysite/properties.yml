@@ -1,0 +1,7 @@
+input: content
+templates: templates/
+css: assets/css/
+images: assets/images/
+favicons: assets/favicons/
+title: My Static Blog
+baseUrl: https://example.com
