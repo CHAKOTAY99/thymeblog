@@ -8,6 +8,7 @@ tags:
 date: 2025-05-21
 draft: false
 template: index.html
+index: true
 ---
 
 # 👋 Hello, and Welcome!

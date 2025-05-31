@@ -32,8 +32,7 @@ public class PageBuilder {
         templateEngine.setTemplateResolver(fileTemplateResolver);
     }
 
-    public void buildSite() throws IOException {
-        final Path outputDir = Paths.get("target/generated-site");
+    public void buildSite(final Path outputDir) throws IOException {
 
         buildPages(outputDir, "content");
         makeIndexList(outputDir, "content/blog", "blog-index", "blog-index");
@@ -53,7 +52,7 @@ public class PageBuilder {
         try (final Stream<Path> files = Files.walk(Paths.get(sourcePath))) {
             files.filter(file -> file.getFileName().toString().endsWith(".md")).forEach(file -> {
                 try {
-                    final String markdownContent = Files.readString(file); //outputDir.resolve(file).normalize()
+                    final String markdownContent = Files.readString(file);
                     final MarkdownPage markdownPage = markdownProcessor.convertToHtml(markdownContent);
 
                     final Metadata metadata = markdownPage.metadata();
@@ -65,10 +64,12 @@ public class PageBuilder {
 
                         final String html = templateEngine.process(metadata.template(), context);
 
-                        final Path blogOutputDir = srcOutputDir.resolve(file).normalize();
+                        final Path blogOutputDir = srcOutputDir.resolve(file);
                         final Path finalOutputFile;
                         // Place index file in the root otherwise follow the pattern
-                        if (file.getFileName().toString().equals("index.md") && metadata.template().equals("index.html")) {
+                        if (metadata.index()) {
+//                            finalOutputFile =  file.getParent().resolve(blogOutputDir.getFileName().toString().replace(".md", ".html"));
+//                            finalOutputFile = Path.of(blogOutputDir.toString().replace(".md", ".html"));
                             finalOutputFile = srcOutputDir.resolve(blogOutputDir.getFileName().toString().replace(".md", ".html"));
                             Files.createDirectories(finalOutputFile.getParent());
                         } else {
@@ -124,7 +125,7 @@ public class PageBuilder {
             throw new RuntimeException("Failed to make index of " + template, e);
         }
 
-        final Metadata metadata = new Metadata(null, null, null, null, null, false, SlugUtil.slugify(indexName), null);
+        final Metadata metadata = new Metadata(null, null, null, null, null, false, SlugUtil.slugify(indexName), null, true);
         final Context context = new Context();
         context.setVariable("links", links);
         context.setVariable("metadata", metadata);

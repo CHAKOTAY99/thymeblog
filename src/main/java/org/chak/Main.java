@@ -8,8 +8,9 @@ import java.nio.file.Paths;
 public class Main {
     public static void main(String[] args) {
         try {
+//            final Path srcDir = null; TODO
             final Path outputDir = Paths.get("target/generated-site");
-            new PageBuilder().buildSite();
+            new PageBuilder().buildSite(outputDir);
             StaticAssetBuilder.copyStaticAssets(outputDir, "assets");
         } catch (final Exception e) {
             throw new RuntimeException(e);

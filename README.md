@@ -28,6 +28,13 @@ In no particular order
 14. ~~Introduce a base layout~~
 
 
+## HOWTO
+CSS, Templates and Markdown need to be provided in accordance to the project structure.
+The program will not handle cases in which these are not provided.
+
+This project has a template already provided.
+
+
 ## Standalone system
 
 In a perfect world I would want to point the jar file to a folder with the entire sitemap and it will output the entire website in an output folder.

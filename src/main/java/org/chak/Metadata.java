@@ -14,9 +14,10 @@ public record Metadata(String title,
                        Set<String> tags,
                        boolean draft,
                        String slug,
-                       String template) {
+                       String template,
+                       boolean index) {
 
-    protected static Metadata parse(final Map<String, List<String>> extractedMetadata) {
+    public static Metadata parse(final Map<String, List<String>> extractedMetadata) {
         final String title = getElement(extractedMetadata, "title");
         final String description = getElement(extractedMetadata, "description");
         final String author = getElement(extractedMetadata, "author");
@@ -26,11 +27,17 @@ public record Metadata(String title,
         final boolean draft = Boolean.parseBoolean(getElement(extractedMetadata, "draft"));
         final List<String> tags = extractedMetadata.getOrDefault("tags", List.of());
         final String template = getElement(extractedMetadata, "template");
+        final boolean route = Boolean.parseBoolean(getElement(extractedMetadata, "index"));
 
         return new Metadata(title == null ? null : title.replaceAll("^\"|\"$", ""),
                 description == null ? null : description.replaceAll("^\"|\"$", ""),
                 author == null ? null : author.replaceAll("^\"|\"$", ""),
-                postDate, new HashSet<>(tags), draft, SlugUtil.slugify(title), template);
+                postDate,
+                new HashSet<>(tags),
+                draft,
+                SlugUtil.slugify(title),
+                template,
+                route);
     }
 
     /**

@@ -4,10 +4,10 @@ description: "An exploration of why birds captivate our attention—from their s
 author: "Your Name"
 date: 2025-02-21
 tags:
-- birds
-- nature
-- wildlife
-- animals
+  - birds
+  - nature
+  - wildlife
+  - animals
 draft: true
 template: blog-post.html
 ---
