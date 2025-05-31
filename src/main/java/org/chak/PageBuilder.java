@@ -23,7 +23,7 @@ public class PageBuilder {
     public PageBuilder() {
         markdownProcessor = new MarkdownProcessor();
         final FileTemplateResolver fileTemplateResolver = new FileTemplateResolver();
-        fileTemplateResolver.setPrefix("templates/");
+        fileTemplateResolver.setPrefix("mysite/templates/");
         fileTemplateResolver.setSuffix(".html");
         fileTemplateResolver.setTemplateMode(TemplateMode.HTML);
         fileTemplateResolver.setCharacterEncoding("UTF-8");
@@ -34,9 +34,9 @@ public class PageBuilder {
 
     public void buildSite(final Path outputDir) throws IOException {
 
-        buildPages(outputDir, "content");
-        makeIndexList(outputDir, "content/blog", "blog-index", "blog-index");
-        makeIndexList(outputDir, "content/projects", "project-index", "project-index");
+        buildPages(outputDir, "mysite/content");
+        makeIndexList(outputDir, "mysite/content/blog", "blog-index", "blog-index");
+        makeIndexList(outputDir, "mysite/content/projects", "project-index", "project-index");
     }
 
     /**

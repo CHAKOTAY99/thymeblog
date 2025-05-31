@@ -32,7 +32,7 @@ In no particular order
 CSS, Templates and Markdown need to be provided in accordance to the project structure.
 The program will not handle cases in which these are not provided.
 
-This project has a template already provided.
+This project has a template already provided. (Folders not located in the /src directory)
 
 
 ## Standalone system

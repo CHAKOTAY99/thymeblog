@@ -48,11 +48,11 @@ Let’s be honest—your camera roll is 80% dog photos, right?
 ### My Dog Donny - Markdown example
 #### With Html
 
-<img alt="A picture of my dog Donny rendered with html in markdown!" width="50%" src="../../userassets/images/mydogpic.jpg"/>
+<img alt="A picture of my dog Donny rendered with html in markdown!" width="50%" src="../../assets/images/mydogpic.jpg"/>
 
 #### With Markdown
 
-![A picture of my dog Donny rendered with markdown!](../../userassets/images/mydogpic.jpg)
+![A picture of my dog Donny rendered with markdown!](../../assets/images/mydogpic.jpg)
 ---
 
 > _“Dogs do speak, but only to those who know how to listen.”_ – Orhan Pamuk

@@ -10,8 +10,8 @@ public class Main {
         try {
 //            final Path srcDir = null; TODO
             final Path outputDir = Paths.get("target/generated-site");
+            StaticAssetBuilder.copyStaticAssets(outputDir, "mysite/assets");
             new PageBuilder().buildSite(outputDir);
-            StaticAssetBuilder.copyStaticAssets(outputDir, "assets");
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }

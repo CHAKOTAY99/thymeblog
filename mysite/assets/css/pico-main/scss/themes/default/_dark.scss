@@ -1,6 +1,6 @@
 @use "sass:color";
 @use "sass:map";
-@use "../../colors" as *;
+@use "../../colors/index" as *;
 @use "../../settings" as *;
 @use "../../helpers/functions";
 @use "theme-colors";

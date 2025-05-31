@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <head th:fragment="head(title, description, author, type, url, image)">
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/userassets/css/pico-main/css/pico.jade.min.css">
+  <link rel="stylesheet" href="/mysite/assets/css/pico-main/css/pico.jade.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/userassets/favicon/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/userassets/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/userassets/favicon/favicon-16x16.png">
-  <link rel="icon" type="image/png" href="/userassets/favicon/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/mysite/assetsrassets/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/mysite/assetsrassets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/mysite/assetsrassets/favicon/favicon-16x16.png">
+  <link rel="icon" type="image/png" href="/mysite/assetsrassets/favicon/favicon.ico">
 
   <title th:text="${title}">My Site</title> <!-- change based on blog -->
 
@@ -20,14 +20,14 @@
   <meta property="og:title" th:attr="content=${title}">
   <meta property="og:description" th:attr="content=${description}">
   <meta property="og:url" th:attr="content=${url}">
-  <meta property="og:image" th:attr="content=${image != null ? image : '/userassets/favicon/android-chrome-512x512.png'}">
+  <meta property="og:image" th:attr="content=${image != null ? image : '/assets/favicon/android-chrome-512x512.png'}">
   <meta property="og:site_name" content="Your Blog Name"> <!-- change based on blog -->
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" th:attr="content=${image != null ? image : '/userassets/favicon/android-chrome-512x512.png'}">
+  <meta name="twitter:card" th:attr="content=${image != null ? image : '/assets/favicon/android-chrome-512x512.png'}">
   <meta name="twitter:title" th:attr="content=${title}">
   <meta name="twitter:description" th:attr="content=${description}">
-  <meta name="twitter:image" th:attr="content=${image != null ? image : '/userassets/favicon/android-chrome-512x512.png'}">
+  <meta name="twitter:image" th:attr="content=${image != null ? image : '/assets/favicon/android-chrome-512x512.png'}">
 
   <meta name="robots" content="index, follow">
 

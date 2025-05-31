@@ -55,6 +55,7 @@ There are 4 ways to get started with pico.css:
 [Download Pico](https://github.com/picocss/pico/archive/refs/heads/main.zip) and link `/css/pico.min.css` in the `<head>` of your website.
 
 ```html
+
 <link rel="stylesheet" href="css/pico.min.css">
 ```
 
