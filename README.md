@@ -51,3 +51,7 @@ TODO - 3 Separate builders; Static assets, index pages and blog pages.
 root index page should just link to other index pages
 
 Common layout with the navbar fragment will have to be created so the navbar is filled in
+
+1. Pass URLs to Navbar and build navbar
+2. Generate new folder and place everything in it.
+3. Handle generating indexes

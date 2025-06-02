@@ -2,8 +2,6 @@ package org.chak;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.FileTemplateResolver;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -25,12 +23,11 @@ public class PageBuilder {
         this.templateEngine = templateEngine;
     }
 
-    public void buildSite(final Path outputDir) throws IOException {
-
-        buildPages(outputDir, "mysite/content");
-        makeIndexList(outputDir, "mysite/content/blog", "blog-index", "blog-index");
-        makeIndexList(outputDir, "mysite/content/projects", "project-index", "project-index");
-    }
+//    public void buildSite(final Path outputDir, final String contentUrl) {
+//        buildPages(outputDir, contentUrl);
+//        makeIndexList(outputDir, "mysite/content/blog", "blog-index", "blog-index");
+//        makeIndexList(outputDir, "mysite/content/projects", "project-index", "project-index");
+//    }
 
     /**
      * Handles building the pages by going through the provided directory (subdirectories are ignored)
@@ -39,8 +36,11 @@ public class PageBuilder {
      * @param srcOutputDir - where to output the files
      * @param sourcePath   - where to retrieve the .md files from
      */
-    private void buildPages(final Path srcOutputDir,
-                            final String sourcePath) throws IOException {
+    public void buildPages(final Path srcOutputDir,
+                            final String sourcePath) {
+
+        // We don't want to persist the contents folder but save as close to root as possible
+        final Path directoryToRemove = srcOutputDir.resolve(sourcePath);
 
         try (final Stream<Path> files = Files.walk(Paths.get(sourcePath))) {
             files.filter(file -> file.getFileName().toString().endsWith(".md")).forEach(file -> {
@@ -61,21 +61,24 @@ public class PageBuilder {
                         final Path finalOutputFile;
                         // Place index file in the root otherwise follow the pattern
                         if (metadata.index()) {
-//                            finalOutputFile =  file.getParent().resolve(blogOutputDir.getFileName().toString().replace(".md", ".html"));
-//                            finalOutputFile = Path.of(blogOutputDir.toString().replace(".md", ".html"));
-                            finalOutputFile = srcOutputDir.resolve(blogOutputDir.getFileName().toString().replace(".md", ".html"));
-                            Files.createDirectories(finalOutputFile.getParent());
+                            finalOutputFile = Path.of(blogOutputDir.toString().replace(".md", ".html"));
                         } else {
                             finalOutputFile = blogOutputDir.resolveSibling(metadata.slug());
-                            Files.createDirectories(finalOutputFile.getParent());
                         }
 
-                        Files.writeString(finalOutputFile, html);
+                        // Relative path for content directory to remove
+                        final Path relativePath = directoryToRemove.relativize(finalOutputFile);
+                        final Path newFile = srcOutputDir.resolve(Paths.get("mysite").resolve(relativePath)); // WIP on path
+
+                        Files.createDirectories(newFile.getParent());
+                        Files.writeString(newFile, html);
                     }
                 } catch (final IOException e) {
                     throw new RuntimeException("Failed to process " + file.getFileName() + " " + e);
                 }
             });
+        } catch (final IOException e) {
+            throw new RuntimeException("Failed to process content from properties file location: " + sourcePath + " " + e);
         }
     }
 

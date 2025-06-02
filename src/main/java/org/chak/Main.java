@@ -17,9 +17,9 @@ public class Main {
             StaticAssetBuilder.copyStaticAssets(outputDir, siteProperties.getAssets());
             final MarkdownProcessor markdownProcessor = new MarkdownProcessor();
             final TemplateEngine templateEngine = TemplateEngineFactory.create(siteProperties.getTemplates());
-            new PageBuilder(markdownProcessor, templateEngine).buildSite(outputDir);
+            new PageBuilder(markdownProcessor, templateEngine).buildPages(outputDir, siteProperties.getInput());
         } catch (final Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("A failure has occurred, please re-run the program", e);
         }
     }
 }

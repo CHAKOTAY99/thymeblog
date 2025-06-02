@@ -1,4 +1,4 @@
-input: content                  # Place your markdown content here (can include subfolders)
+input: mysite/content                  # Place your markdown content here (can include subfolders)
 templates: mysite/templates/    # Place your thymeleaf templates here
 assets: mysite/assets/          # Place your assets here (css, images, favicons)
 title: My Static Blog           # Site title
