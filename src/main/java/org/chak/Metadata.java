@@ -1,5 +1,6 @@
 package org.chak;
 
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -15,9 +16,11 @@ public record Metadata(String title,
                        boolean draft,
                        String slug,
                        String template,
-                       boolean index) {
+                       boolean index,
+                       Path sourcePath,
+                       Path outputPath) {
 
-    public static Metadata parse(final Map<String, List<String>> extractedMetadata) {
+    public static Metadata parseFromYaml(final Map<String, List<String>> extractedMetadata) {
         final String title = getElement(extractedMetadata, "title");
         final String description = getElement(extractedMetadata, "description");
         final String author = getElement(extractedMetadata, "author");
@@ -27,7 +30,7 @@ public record Metadata(String title,
         final boolean draft = Boolean.parseBoolean(getElement(extractedMetadata, "draft"));
         final List<String> tags = extractedMetadata.getOrDefault("tags", List.of());
         final String template = getElement(extractedMetadata, "template");
-        final boolean route = Boolean.parseBoolean(getElement(extractedMetadata, "index"));
+        final boolean index = Boolean.parseBoolean(getElement(extractedMetadata, "index"));
 
         return new Metadata(title == null ? null : title.replaceAll("^\"|\"$", ""),
                 description == null ? null : description.replaceAll("^\"|\"$", ""),
@@ -37,7 +40,26 @@ public record Metadata(String title,
                 draft,
                 SlugUtil.slugify(title),
                 template,
-                route);
+                index,
+                null,
+                null);
+    }
+
+    public static Metadata parseFromYamlAndFile(final Map<String, List<String>> extractedMetadata, final Path filePath, final Path sourcePath) {
+        final Metadata metadata = parseFromYaml(extractedMetadata);
+
+
+        return new Metadata(metadata.title(),
+                metadata.description(),
+                metadata.author(),
+                metadata.date(),
+                new HashSet<>(metadata.tags()),
+                metadata.draft(),
+                SlugUtil.slugify(metadata.title()),
+                metadata.template(),
+                metadata.index(),
+                filePath,
+                sourcePath.relativize(filePath));
     }
 
     /**

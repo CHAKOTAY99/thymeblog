@@ -15,6 +15,9 @@ import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.MutableDataSet;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +43,7 @@ public class MarkdownProcessor {
     }
 
 
-    public MarkdownPage convertToHtml(final String markdownDocument) {
+    public MarkdownPage convertToMarkdownPage(final String markdownDocument) {
         final Node document = parser.parse(markdownDocument);
 
         final AbstractYamlFrontMatterVisitor visitor = new AbstractYamlFrontMatterVisitor();
@@ -48,10 +51,16 @@ public class MarkdownProcessor {
 
         final Map<String, List<String>> data = visitor.getData();
 
-        final Metadata metadata = Metadata.parse(data);
+        final Metadata metadata = Metadata.parseFromYaml(data);
         final String html = htmlRenderer.render(document);
 
         return new MarkdownPage(metadata, html);
+    }
+
+    public String convertToHtml(final String markdownDocument) {
+        final Node document = parser.parse(markdownDocument);
+
+        return htmlRenderer.render(document);
     }
 
     public Metadata getMetadata(final String markdownDocument) {
@@ -62,6 +71,37 @@ public class MarkdownProcessor {
 
         final Map<String, List<String>> data = visitor.getData();
 
-        return Metadata.parse(data);
+        return Metadata.parseFromYaml(data);
+    }
+
+    public Metadata getMetadataFromFile(final Path markdownFile, final Path sourcePath) {
+        try {
+            final String file = Files.readString(markdownFile);
+            final Node document = parser.parse(file);
+            final AbstractYamlFrontMatterVisitor visitor = new AbstractYamlFrontMatterVisitor();
+            visitor.visit(document);
+            final Map<String, List<String>> data = visitor.getData();
+            return Metadata.parseFromYamlAndFile(data, markdownFile, sourcePath);
+        } catch (IOException e) {
+            throw new RuntimeException("Error parsing file " + markdownFile, e);
+        }
+    }
+
+    public MarkdownPage getMarkdownPageFromFile(final Path markdownFile, final Path sourcePath) {
+        try {
+            final String file = Files.readString(markdownFile);
+            final Node document = parser.parse(file);
+
+            final AbstractYamlFrontMatterVisitor visitor = new AbstractYamlFrontMatterVisitor();
+            visitor.visit(document);
+            final Map<String, List<String>> data = visitor.getData();
+
+            final Metadata metadata = Metadata.parseFromYamlAndFile(data, markdownFile, sourcePath);
+            final String html = htmlRenderer.render(document);
+
+            return new MarkdownPage(metadata, html);
+        } catch (IOException e) {
+            throw new RuntimeException("Error parsing file " + markdownFile, e);
+        }
     }
 }

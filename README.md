@@ -56,4 +56,4 @@ Common layout with the navbar fragment will have to be created so the navbar is 
 2. Generate new folder and place everything in it.
 3. Handle generating indexes
 
-I think to keep everything simple, I will build the index pages at the very last so they can have a complete list.
+I learned a big mistake. I should always process the metadata first.

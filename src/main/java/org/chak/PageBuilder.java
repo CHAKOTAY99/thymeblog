@@ -44,9 +44,6 @@ public class PageBuilder {
                 .map(Paths::get)  // convert to full path
                 .collect(Collectors.toSet());
 
-        // We don't want to persist the contents folder but save as close to root as possible
-//        final Path directoryToRemove = srcOutputDir.resolve(sourcePath);
-
         try (final Stream<Path> files = Files.walk(sourcePath)) {
             files
                     .filter(path -> dirsToSkip.stream().noneMatch(path::startsWith))
@@ -54,7 +51,7 @@ public class PageBuilder {
 
                 try {
                     final String markdownContent = Files.readString(file);
-                    final MarkdownPage markdownPage = markdownProcessor.convertToHtml(markdownContent);
+                    final MarkdownPage markdownPage = markdownProcessor.convertToMarkdownPage(markdownContent);
 
                     final Metadata metadata = markdownPage.metadata();
                     if (!metadata.draft()) {
@@ -129,7 +126,7 @@ public class PageBuilder {
             throw new RuntimeException("Failed to make index of " + template, e);
         }
 
-        final Metadata metadata = new Metadata(null, null, null, null, null, false, SlugUtil.slugify(indexName), null, true);
+        final Metadata metadata = new Metadata(null, null, null, null, null, false, SlugUtil.slugify(indexName), null, true, null, null);
         final Context context = new Context();
         context.setVariable("links", links);
         context.setVariable("metadata", metadata);
