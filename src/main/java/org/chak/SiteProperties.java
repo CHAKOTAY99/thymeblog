@@ -2,7 +2,6 @@ package org.chak;
 
 public class SiteProperties {
 
-    private String input;
     private String templates;
     private String assets;
     private String title;
@@ -10,14 +9,6 @@ public class SiteProperties {
 
     public SiteProperties() {
         // no arg constructor for snakeyaml
-    }
-
-    public String getInput() {
-        return input;
-    }
-
-    public void setInput(final String input) {
-        this.input = input;
     }
 
     public String getTemplates() {

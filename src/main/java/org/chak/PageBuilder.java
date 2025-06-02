@@ -8,9 +8,8 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class PageBuilder {
@@ -37,19 +36,28 @@ public class PageBuilder {
      * @param sourcePath   - where to retrieve the .md files from
      */
     public void buildPages(final Path srcOutputDir,
-                            final String sourcePath) {
+                           final Path sourcePath,
+                           final String... omittedDirectories) {
+
+
+        final Set<Path> dirsToSkip = Arrays.stream(omittedDirectories)
+                .map(Paths::get)  // convert to full path
+                .collect(Collectors.toSet());
 
         // We don't want to persist the contents folder but save as close to root as possible
-        final Path directoryToRemove = srcOutputDir.resolve(sourcePath);
+//        final Path directoryToRemove = srcOutputDir.resolve(sourcePath);
 
-        try (final Stream<Path> files = Files.walk(Paths.get(sourcePath))) {
-            files.filter(file -> file.getFileName().toString().endsWith(".md")).forEach(file -> {
+        try (final Stream<Path> files = Files.walk(sourcePath)) {
+            files
+                    .filter(path -> dirsToSkip.stream().noneMatch(path::startsWith))
+                    .filter(file -> file.getFileName().toString().endsWith(".md")).forEach(file -> {
+
                 try {
                     final String markdownContent = Files.readString(file);
                     final MarkdownPage markdownPage = markdownProcessor.convertToHtml(markdownContent);
 
                     final Metadata metadata = markdownPage.metadata();
-                    if(!metadata.draft()) {
+                    if (!metadata.draft()) {
 
                         final Context context = new Context();
                         context.setVariable("content", markdownPage.html());
@@ -67,11 +75,11 @@ public class PageBuilder {
                         }
 
                         // Relative path for content directory to remove
-                        final Path relativePath = directoryToRemove.relativize(finalOutputFile);
-                        final Path newFile = srcOutputDir.resolve(Paths.get("mysite").resolve(relativePath)); // WIP on path
+//                        final Path relativePath = directoryToRemove.relativize(finalOutputFile);
+//                        final Path newFile = srcOutputDir.resolve(Paths.get("mysite").resolve(relativePath)); // WIP on path
 
-                        Files.createDirectories(newFile.getParent());
-                        Files.writeString(newFile, html);
+                        Files.createDirectories(finalOutputFile.getParent());
+                        Files.writeString(finalOutputFile, html);
                     }
                 } catch (final IOException e) {
                     throw new RuntimeException("Failed to process " + file.getFileName() + " " + e);
@@ -93,7 +101,7 @@ public class PageBuilder {
      * @param template     - which template to use
      * @param indexName    - what to call the index
      */
-    private void makeIndexList(final Path srcOutputDir, final String blogDir, final String template, final String indexName) {
+    public void makeIndexList(final Path srcOutputDir, final String blogDir, final String template, final String indexName) {
 
         final List<Map<String, Object>> links = new ArrayList<>();
         final Path contentPath = Paths.get(blogDir);
