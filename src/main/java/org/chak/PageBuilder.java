@@ -20,16 +20,9 @@ public class PageBuilder {
     private final MarkdownProcessor markdownProcessor;
     private final TemplateEngine templateEngine;
 
-    public PageBuilder() {
-        markdownProcessor = new MarkdownProcessor();
-        final FileTemplateResolver fileTemplateResolver = new FileTemplateResolver();
-        fileTemplateResolver.setPrefix("mysite/templates/");
-        fileTemplateResolver.setSuffix(".html");
-        fileTemplateResolver.setTemplateMode(TemplateMode.HTML);
-        fileTemplateResolver.setCharacterEncoding("UTF-8");
-
-        templateEngine = new TemplateEngine();
-        templateEngine.setTemplateResolver(fileTemplateResolver);
+    public PageBuilder(final MarkdownProcessor markdownProcessor, final TemplateEngine templateEngine) {
+        this.markdownProcessor = markdownProcessor;
+        this.templateEngine = templateEngine;
     }
 
     public void buildSite(final Path outputDir) throws IOException {

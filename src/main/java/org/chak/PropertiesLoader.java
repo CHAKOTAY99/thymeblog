@@ -13,7 +13,7 @@ public class PropertiesLoader {
 
     private PropertiesLoader() {}
 
-    public static SiteProperties loadProperties(final Path propertiesFilePath) throws IOException {
+    public static SiteProperties loadProperties(final Path propertiesFilePath) {
         try(final InputStream in = Files.newInputStream(propertiesFilePath)) {
             final LoaderOptions options = new LoaderOptions();
             final Constructor constructor = new Constructor(SiteProperties.class, options);

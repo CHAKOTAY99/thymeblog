@@ -4,9 +4,7 @@ public class SiteProperties {
 
     private String input;
     private String templates;
-    private String css;
-    private String images;
-    private String favicons;
+    private String assets;
     private String title;
     private String baseUrl;
 
@@ -30,28 +28,12 @@ public class SiteProperties {
         this.templates = templates;
     }
 
-    public String getCss() {
-        return css;
+    public String getAssets() {
+        return assets;
     }
 
-    public void setCss(final String css) {
-        this.css = css;
-    }
-
-    public String getImages() {
-        return images;
-    }
-
-    public void setImages(final String images) {
-        this.images = images;
-    }
-
-    public String getFavicons() {
-        return favicons;
-    }
-
-    public void setFavicons(final String favicons) {
-        this.favicons = favicons;
+    public void setAssets(final String assets) {
+        this.assets = assets;
     }
 
     public String getTitle() {

@@ -1,7 +1,0 @@
-input: content                  # Place your markdown content here (can include subfolders)
-templates: templates/           # Place your thymeleaf templates here
-css: assets/css/                # Place your css heere
-images: assets/images/          # Images are to be located here
-favicons: assets/favicons/      # Favicons may be located here or images
-title: My Static Blog           # Site title
-baseUrl: https://example.com    # Base Url for canonical URLs

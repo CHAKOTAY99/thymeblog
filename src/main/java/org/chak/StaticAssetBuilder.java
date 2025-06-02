@@ -12,8 +12,6 @@ import java.util.stream.Stream;
  */
 public class StaticAssetBuilder {
 
-    // Asset Directory will remain hardcoded unless provided otherwise
-
     private StaticAssetBuilder() {}
 
     public static void copyStaticAssets(final Path srcOutputDir,
