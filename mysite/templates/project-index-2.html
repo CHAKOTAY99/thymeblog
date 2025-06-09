@@ -17,12 +17,7 @@
     <ul class="container" th:each="link: ${links}">
         <li style="list-style-type: none;">
             <article>
-                <h6>
-                    <a th:href="${link.href}" th:text="${link.title}"></a> <!-- to be fixed to th:href="@{${link.href}}"  -->
-                    <small> -
-                        <time th:text="${link.date}"></time>
-                    </small>
-                </h6>
+                <h6><a th:href="${link.href}" th:text="${link.title}"></a></h6> <!-- to be fixed to th:href="@{${link.href}}"  -->
                 <small th:text="${link.description}"></small>
                 <p>
                     <i>
@@ -33,4 +28,3 @@
         </li>
     </ul>
 </th:block>
-

@@ -1,5 +1,5 @@
 ---
-title: "Welcome to My Blog"
+title: "Home"
 description: "Thoughts, tutorials, and projects on software development, technology, and more."
 author: "Your Name"
 tags:

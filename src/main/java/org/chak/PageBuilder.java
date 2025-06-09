@@ -54,7 +54,7 @@ public class PageBuilder {
                     final MarkdownPage markdownPage = markdownProcessor.convertToMarkdownPage(markdownContent);
 
                     final Metadata metadata = markdownPage.metadata();
-                    if (!metadata.draft()) {
+                    if (!metadata.draft() && !metadata.index()) {
 
                         final Context context = new Context();
                         context.setVariable("content", markdownPage.html());
@@ -65,11 +65,7 @@ public class PageBuilder {
                         final Path blogOutputDir = srcOutputDir.resolve(file);
                         final Path finalOutputFile;
                         // Place index file in the root otherwise follow the pattern
-                        if (metadata.index()) {
-                            finalOutputFile = Path.of(blogOutputDir.toString().replace(".md", ".html"));
-                        } else {
                             finalOutputFile = blogOutputDir.resolveSibling(metadata.slug());
-                        }
 
                         // Relative path for content directory to remove
 //                        final Path relativePath = directoryToRemove.relativize(finalOutputFile);
@@ -84,6 +80,41 @@ public class PageBuilder {
             });
         } catch (final IOException e) {
             throw new RuntimeException("Failed to process content from properties file location: " + sourcePath + " " + e);
+        }
+    }
+
+    // Create page builder from metadata TODO
+
+    /**
+     * Handles building the pages by going through the provided metadata
+     *
+     * @param srcOutputDir - where to output the files
+     */
+    public void buildPagesFromMetadata(final Path srcOutputDir,
+                                       final List<MarkdownPage> markdownPageList) {
+
+
+        final List<MarkdownPage> pagesToRender = markdownPageList.stream()
+                .filter(page -> !page.metadata().index())
+                .filter(page -> !page.metadata().draft())
+                .toList();
+
+        for (final MarkdownPage markdownPage : pagesToRender) {
+
+            final Context context = new Context();
+            context.setVariable("content", markdownPage.html());
+            context.setVariable("metadata", markdownPage.metadata());
+
+            final String html = templateEngine.process(markdownPage.metadata().template(), context);
+
+            try {
+                final Path pageOutputDir = srcOutputDir.resolve(markdownPage.metadata().sourcePath());
+                final Path finalOutputDir = pageOutputDir.resolveSibling(markdownPage.metadata().slug());
+                Files.createDirectories(finalOutputDir.getParent());
+                Files.writeString(finalOutputDir, html);
+            } catch (final IOException e) {
+                throw new RuntimeException("Failed to write page " + markdownPage.metadata().title(), e);
+            }
         }
     }
 
