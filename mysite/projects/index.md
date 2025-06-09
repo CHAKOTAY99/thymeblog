@@ -7,7 +7,7 @@ tags:
   - blog
 date: 2025-05-21
 draft: false
-template: project-index-2.html
+template: project-index.html
 index: true
 ---
 

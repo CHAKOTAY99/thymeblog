@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html th:lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="layout :: layout(
-    'Blog Posts',
-    'This section contains all the blog posts',
-    'Author',
-    'Website',
-    ${metadata.slug()},
-    null,
-    ~{::main},
+      ${metadata.title},
+      ${metadata.description},
+      ${metadata.author},
+      'website',
+      ${metadata.slug},
+      null,
+      ~{::main},
     ${navbarEntries})">
 
 <th:block th:fragment="main">
     <div class="container">
-        <p>Welcome to the blog! Here you’ll find a collection of posts covering everything from tutorials and personal
-            projects to thoughts on technology, creativity and just random things that pop into my head.</p>
-        <p>Feel free to browse through the latest entries below:</p>
+        <section th:utext="${content}"></section>
     </div>
 
     <ul class="container" th:each="link: ${links}">
         <li style="list-style-type: none;">
             <article>
                 <h6>
-                    <a th:href="@{${link.href}}" th:text="${link.title}"></a>
+                    <a th:href="${link.href}" th:text="${link.title}"></a> <!-- to be fixed to th:href="@{${link.href}}"  -->
                     <small> -
                         <time th:text="${link.date}"></time>
                     </small>
