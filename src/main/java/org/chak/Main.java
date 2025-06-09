@@ -32,19 +32,11 @@ public class Main {
             final MarkdownProcessor markdownProcessor = new MarkdownProcessor();
             final TemplateEngine templateEngine = TemplateEngineFactory.create(siteProperties.getTemplates());
 
-//            new PageBuilder(markdownProcessor, templateEngine).buildPages(outputDir, srcDir, siteProperties.getAssets(), siteProperties.getTemplates());
-//            new PageBuilder(markdownProcessor, templateEngine).makeIndexList(outputDir, "mysite/blog", "blog-index", "blog-index"); // this needs to go
-//            new PageBuilder(markdownProcessor, templateEngine).makeIndexList(outputDir, "mysite/projects", "project-index", "project-index"); // this needs to go - make a idnex file forit
-
             final List<MarkdownPage> markdownPageList = new MetadataBuilder(markdownProcessor).compile(srcDir, siteProperties.getAssets(), siteProperties.getTemplates());
-            // first build the navbar
             final List<NavbarEntry> navbarEntries = NavbarUtil.createNavBar(markdownPageList);
 
-            // build the pages
-//            new PageBuilder(markdownProcessor, templateEngine).buildPages(outputDir, srcDir, siteProperties.getAssets(), siteProperties.getTemplates());
-            new PageBuilder(markdownProcessor, templateEngine).buildPagesFromMetadata(outputDir, markdownPageList, navbarEntries);
+            new PageBuilder(templateEngine).buildPagesFromMetadata(outputDir, markdownPageList, navbarEntries);
 
-            // build the indexes
             new IndexPageBuilder(templateEngine).compileIndexes(outputDir, markdownPageList, navbarEntries);
 
         } catch (final Exception e) {
