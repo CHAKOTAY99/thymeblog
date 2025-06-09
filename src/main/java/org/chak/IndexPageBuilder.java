@@ -26,7 +26,9 @@ public class IndexPageBuilder {
      * Handles building the indexes through the provided metadata
      * and creates a list of links to the .md files relative to the parent path. They are all then placed in a .html page
      */
-    public void makeIndexes(final Path srcOutputDir, final List<MarkdownPage> markdownPageList) {
+    public void compileIndexes(final Path srcOutputDir,
+                               final List<MarkdownPage> markdownPageList,
+                               final List<NavbarEntry> navbarEntries) {
 
 
         final List<MarkdownPage> indexes = markdownPageList.stream()
@@ -65,6 +67,7 @@ public class IndexPageBuilder {
             context.setVariable("content", index.html());
             context.setVariable("links", links);
             context.setVariable("metadata", index.metadata());
+            context.setVariable("navbarEntries", navbarEntries);
 
             final String html = templateEngine.process(index.metadata().template(), context);
 

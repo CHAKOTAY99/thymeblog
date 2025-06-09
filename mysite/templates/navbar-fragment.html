@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<header>
+<th:block th:fragment="nav(navbarEntries)">
     <nav class="container">
         <!-- Will remain hardcoded due to limited scope but can be turned into a fragment like header-->
         <ul>
             <li><strong>My Website</strong></li> <!-- to change -->
         </ul>
+
         <ul>
-            <li><a href="/index.html">Home</a></li>
-            <li><a href="/blog-index.html">Blog</a></li>
-            <li><a href="/blog/index.html">Blog 2</a></li>
-            <li><a href="/project-index.html">Projects</a></li>
+            <li th:each="entry: ${navbarEntries}"> <a th:href="${entry.url}" th:text="${entry.title}"></a></li>
         </ul>
     </nav>
-</header>
+</th:block>

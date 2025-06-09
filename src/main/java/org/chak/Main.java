@@ -42,10 +42,10 @@ public class Main {
 
             // build the pages
 //            new PageBuilder(markdownProcessor, templateEngine).buildPages(outputDir, srcDir, siteProperties.getAssets(), siteProperties.getTemplates());
-            new PageBuilder(markdownProcessor, templateEngine).buildPagesFromMetadata(outputDir, markdownPageList);
+            new PageBuilder(markdownProcessor, templateEngine).buildPagesFromMetadata(outputDir, markdownPageList, navbarEntries);
 
             // build the indexes
-            new IndexPageBuilder(templateEngine).makeIndexes(outputDir, markdownPageList);
+            new IndexPageBuilder(templateEngine).compileIndexes(outputDir, markdownPageList, navbarEntries);
 
         } catch (final Exception e) {
             throw new RuntimeException("A failure has occurred, please re-run the program", e);

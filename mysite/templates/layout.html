@@ -2,7 +2,7 @@
 <html
       th:lang="en"
       xmlns:th="http://www.thymeleaf.org"
-      th:fragment="layout(title, description, author, type, slug, image, main)">
+      th:fragment="layout(title, description, author, type, slug, image, main, navbarEntries)">
 <head th:replace="head-fragment :: head(
     ${title},
     ${description},
@@ -11,12 +11,12 @@
     ${slug},
     ${image})">
 <body>
-<header th:insert="navbar-fragment :: nav"></header>
+<header th:replace="navbar-fragment :: nav(${navbarEntries})"></header>
 
 <th:block th:replace="${main}" />
 
 <footer class="container">
-    <p>&copy; 2025 Your Name</p>
+    <p>&copy; 2025 Your Name</p> <!-- TODO CHANGE to use properties-->
 </footer>
 </body>
 </html>

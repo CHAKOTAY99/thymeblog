@@ -6,7 +6,8 @@
     'article',
     '/index.html',
     null,
-    ~{::main})">
+    ~{::main},
+    ${navbarEntries})">
 <th:block th:fragment="main">
     <main class="container" th:utext="${content}"></main>
 </th:block>
