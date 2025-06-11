@@ -14,7 +14,13 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         try {
-            final Path srcDir = Paths.get("mysite");
+
+            if (args.length != 1) {
+                System.err.println("Usage: java -jar thymeblog.jar <input-dir>");
+                System.exit(1);
+            }
+
+            final Path srcDir = Path.of(args[0]);;
 
             // Retrieve Properties
             final SiteProperties siteProperties = PropertiesLoader.loadProperties(srcDir.resolve("properties.yaml"));
@@ -24,7 +30,7 @@ public class Main {
             final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
             final String timestamp = LocalDateTime.now().format(formatter);
 
-            final Path outputDir = Paths.get("target/", timestamp);
+            final Path outputDir = Paths.get(timestamp);
             Files.createDirectories(outputDir);
 
             StaticAssetBuilder.copyStaticAssets(outputDir, siteProperties.getAssets());

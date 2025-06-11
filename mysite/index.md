@@ -22,13 +22,9 @@ This is the front page of my personal blog, where I write about:
 
 ---
 
-## ✨ Latest Posts
+## ✨ What is this project?
 
-Here are some of the most recent articles:
-
-- [Understanding Java Records](./posts/java-records.md) — A deep dive into Java's `record` keyword.
-- [Static Site Generation with Angular](./posts/angular-ssg.md) — How I built this site using Angular and Markdown.
-- [Switching from Selenium to Playwright](./posts/playwright-migration.md) — Lessons learned from modernizing our test stack.
+This project handles generating a website from a folder of markdown files.
 
 ---
 
@@ -36,11 +32,10 @@ Here are some of the most recent articles:
 
 I'm currently using:
 
-- **Angular** for the front-end
-- **Strapi** for content management
-- **Markdown** for content writing
-- **PrimeNG** for UI components
-
+- **Markdown** for the contents of my posts
+- **Thymeleaf** to map the html into templates
+- **flexmark** to handle processing markdown to html
+- **snakeyaml** to handle properties file
 ---
 
 ## 📬 Get in Touch
@@ -49,7 +44,6 @@ I'm always happy to hear feedback, suggestions, or collaboration ideas.
 
 - 📧 Email: your@email.com
 - 🐙 GitHub: [yourusername](https://github.com/yourusername)
-- 📝 Subscribe to the [RSS Feed](./rss.xml)
 
 ---
 
