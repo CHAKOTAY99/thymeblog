@@ -32,7 +32,7 @@ public class Main {
             final MarkdownProcessor markdownProcessor = new MarkdownProcessor();
             final TemplateEngine templateEngine = TemplateEngineFactory.create(siteProperties.getTemplates());
 
-            final List<MarkdownPage> markdownPageList = new MetadataBuilder(markdownProcessor).compile(srcDir, siteProperties.getAssets(), siteProperties.getTemplates());
+            final List<MarkdownPage> markdownPageList = new MetadataBuilder(markdownProcessor).compile(srcDir, siteProperties);
             final List<NavbarEntry> navbarEntries = NavbarUtil.createNavBar(markdownPageList);
 
             new PageBuilder(templateEngine).buildPagesFromMetadata(outputDir, markdownPageList, navbarEntries);

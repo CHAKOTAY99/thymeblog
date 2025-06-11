@@ -42,7 +42,7 @@ public class MarkdownProcessor {
         htmlRenderer = HtmlRenderer.builder(OPTIONS).build();
     }
 
-    public MarkdownPage getMarkdownPageFromFile(final Path markdownFile, final Path sourcePath) {
+    public MarkdownPage getMarkdownPageFromFile(final Path markdownFile, final Path sourcePath, final SiteProperties siteProperties) {
         try {
             final String file = Files.readString(markdownFile);
             final Node document = parser.parse(file);
@@ -51,7 +51,7 @@ public class MarkdownProcessor {
             visitor.visit(document);
             final Map<String, List<String>> data = visitor.getData();
 
-            final Metadata metadata = Metadata.parseFromYamlAndFile(data, markdownFile, sourcePath);
+            final Metadata metadata = Metadata.parseFromYamlAndFile(data, markdownFile, sourcePath, siteProperties);
             final String html = htmlRenderer.render(document);
 
             return new MarkdownPage(metadata, html);

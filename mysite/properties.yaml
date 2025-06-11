@@ -1,7 +1,7 @@
 templates: mysite/templates/    # Place your thymeleaf templates here
 assets: mysite/assets/          # Place your assets here (css, images, favicons)
 title: My Static Blog           # Site title
-baseUrl: https://example.com    # Base Url for canonical URLs
+baseUrl: https://example.com/    # Base Url for canonical URLs ex. https://www.example.com/
 
 ## The folder location should be relative to where the jar is being executed
 ## Markdown files can be placed anywhere but the templates and assets are strictly to remain in folder

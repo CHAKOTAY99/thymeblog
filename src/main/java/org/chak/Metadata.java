@@ -18,7 +18,8 @@ public record Metadata(String title,
                        String template,
                        boolean index,
                        Path sourcePath,
-                       Path outputPath) {
+                       Path outputPath,
+                       String canonicalUrl) {
 
     public static Metadata parseFromYaml(final Map<String, List<String>> extractedMetadata) {
         final String title = getElement(extractedMetadata, "title");
@@ -42,24 +43,31 @@ public record Metadata(String title,
                 template,
                 index,
                 null,
+                null,
                 null);
     }
 
-    public static Metadata parseFromYamlAndFile(final Map<String, List<String>> extractedMetadata, final Path filePath, final Path sourcePath) {
+    public static Metadata parseFromYamlAndFile(final Map<String, List<String>> extractedMetadata,
+                                                final Path filePath,
+                                                final Path sourcePath,
+                                                final SiteProperties siteProperties) {
         final Metadata metadata = parseFromYaml(extractedMetadata);
 
-
+        final Path outputPath = sourcePath.relativize(filePath);
+        // set the slug to index.html if it is the root index page
+        final String pageSlug = outputPath.getParent() == null ? "index.html" : SlugUtil.slugify(metadata.title());
         return new Metadata(metadata.title(),
                 metadata.description(),
                 metadata.author(),
                 metadata.date(),
                 new HashSet<>(metadata.tags()),
                 metadata.draft(),
-                SlugUtil.slugify(metadata.title()),
+                pageSlug,
                 metadata.template(),
                 metadata.index(),
                 filePath,
-                sourcePath.relativize(filePath));
+                outputPath,
+               SlugUtil.createCanonicalUrl(pageSlug, siteProperties.getBaseUrl(), filePath));
     }
 
     /**

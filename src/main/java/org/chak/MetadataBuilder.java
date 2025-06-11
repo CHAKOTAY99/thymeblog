@@ -20,11 +20,11 @@ public class MetadataBuilder {
     }
 
     public List<MarkdownPage> compile(final Path sourcePath,
-                                  final String... omittedDirectories) {
+                                      final SiteProperties siteProperties) {
 
         final List<MarkdownPage> pages = new ArrayList<>();
 
-        final Set<Path> dirsToSkip = Arrays.stream(omittedDirectories)
+        final Set<Path> dirsToSkip = Arrays.stream(new String[]{siteProperties.getAssets(), siteProperties.getTemplates()})
                 .map(Paths::get)  // convert to full path
                 .collect(Collectors.toSet());
 
@@ -33,8 +33,9 @@ public class MetadataBuilder {
                     .filter(path -> dirsToSkip.stream().noneMatch(path::startsWith))
                     .filter(file -> file.getFileName().toString().endsWith(".md")).forEach(file -> {
 
-                        final MarkdownPage page = markdownProcessor.getMarkdownPageFromFile(file, sourcePath);
+                        final MarkdownPage page = markdownProcessor.getMarkdownPageFromFile(file, sourcePath, siteProperties);
 
+                        // Do not include draft pages
                         if (!page.metadata().draft()) {
                             pages.add(page);
                         }

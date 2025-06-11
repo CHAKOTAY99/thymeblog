@@ -1,5 +1,6 @@
 package org.chak;
 
+import java.nio.file.Path;
 import java.text.Normalizer;
 import java.util.Locale;
 
@@ -24,5 +25,13 @@ public class SlugUtil {
                 .replaceAll("-{2,}", "-")          // Collapse multiple dashes
                 .replaceAll("^-|-$", "") // Trim leading/trailing dashes
                 + ".html";
+    }
+
+    // TODO most likely should not be a utility class
+    // TODO Must be fixed for index due to source folder
+    public static String createCanonicalUrl(final String slug,
+                                            final String siteUrl,
+                                            final Path sourcePath) {
+        return String.format("%s%s", siteUrl, sourcePath.resolveSibling(slug).normalize());
     }
 }
