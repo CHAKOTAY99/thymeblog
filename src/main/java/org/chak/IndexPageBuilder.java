@@ -28,7 +28,8 @@ public class IndexPageBuilder {
      */
     public void compileIndexes(final Path srcOutputDir,
                                final List<MarkdownPage> markdownPageList,
-                               final List<NavbarEntry> navbarEntries) {
+                               final List<NavbarEntry> navbarEntries,
+                               final SiteProperties siteProperties) {
 
 
         final List<MarkdownPage> indexes = markdownPageList.stream()
@@ -68,17 +69,16 @@ public class IndexPageBuilder {
             context.setVariable("links", links);
             context.setVariable("metadata", index.metadata());
             context.setVariable("navbarEntries", navbarEntries);
+            context.setVariable("copyright", siteProperties.getCopyright());
+            context.setVariable("siteTitle", siteProperties.getTitle());
 
             final String html = templateEngine.process(index.metadata().template(), context);
 
 
             try {
-//                    Path.of(blogOutputDir.toString().replace(".md", ".html"));
-                // TODO Create directories check
                 final Path finalPath = Paths.get(srcOutputDir.resolve(index.metadata().sourcePath()).toString().replace(".md", ".html"));
                 Files.createDirectories(finalPath.getParent());
-                Files.writeString(finalPath
-                        , html);
+                Files.writeString(finalPath, html);
             } catch (final IOException e) {
                 throw new RuntimeException("Failed to write index file " + index.metadata().title(), e);
             }

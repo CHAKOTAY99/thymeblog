@@ -11,12 +11,12 @@
     ${slug},
     ${image})">
 <body>
-<header th:replace="navbar-fragment :: nav(${navbarEntries})"></header>
+<header th:replace="navbar-fragment :: nav(${siteTitle}, ${navbarEntries})"></header>
 
 <th:block th:replace="${main}" />
 
 <footer class="container">
-    <p>&copy; 2025 Your Name</p> <!-- TODO CHANGE to use properties-->
+    <p th:text="'&copy; ' +${copyright}">&copy;</p>
 </footer>
 </body>
 </html>

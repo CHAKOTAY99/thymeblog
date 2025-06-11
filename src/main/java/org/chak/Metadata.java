@@ -27,7 +27,7 @@ public record Metadata(String title,
         final String author = getElement(extractedMetadata, "author");
         final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         final String date = getElement(extractedMetadata, "date");
-        final LocalDate postDate =  date != null ? LocalDate.parse(date, dateTimeFormatter) : null;
+        final LocalDate postDate = date != null ? LocalDate.parse(date, dateTimeFormatter) : null;
         final boolean draft = Boolean.parseBoolean(getElement(extractedMetadata, "draft"));
         final List<String> tags = extractedMetadata.getOrDefault("tags", List.of());
         final String template = getElement(extractedMetadata, "template");
@@ -67,19 +67,20 @@ public record Metadata(String title,
                 metadata.index(),
                 filePath,
                 outputPath,
-               SlugUtil.createCanonicalUrl(pageSlug, siteProperties.getBaseUrl(), filePath));
+                SlugUtil.createCanonicalUrl(pageSlug, siteProperties.getBaseUrl(), filePath));
     }
 
     /**
      * Method used to extract a particular element from the map of extracted Metadata provided by the flexmark library
+     *
      * @param extractedMetadata metadata provided by flexmark library
-     * @param key element to be retrieved
+     * @param key               element to be retrieved
      * @return extracted value
      */
     private static String getElement(final Map<String, List<String>> extractedMetadata, final String key) {
         final List<String> values = extractedMetadata.get(key);
 
-        if(values != null && !values.isEmpty()) {
+        if (values != null && !values.isEmpty()) {
             return values.get(0);
         }
         return null;

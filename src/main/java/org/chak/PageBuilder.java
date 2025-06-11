@@ -23,7 +23,8 @@ public class PageBuilder {
      */
     public void buildPagesFromMetadata(final Path srcOutputDir,
                                        final List<MarkdownPage> markdownPageList,
-                                       final List<NavbarEntry> navbarEntries) {
+                                       final List<NavbarEntry> navbarEntries,
+                                       final SiteProperties siteProperties) {
 
 
         final List<MarkdownPage> pagesToRender = markdownPageList.stream()
@@ -37,6 +38,8 @@ public class PageBuilder {
             context.setVariable("content", markdownPage.html());
             context.setVariable("metadata", markdownPage.metadata());
             context.setVariable("navbarEntries", navbarEntries);
+            context.setVariable("copyright", siteProperties.getCopyright());
+            context.setVariable("siteTitle", siteProperties.getTitle());
 
             final String html = templateEngine.process(markdownPage.metadata().template(), context);
 

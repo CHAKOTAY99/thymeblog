@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<th:block th:fragment="nav(navbarEntries)">
+<th:block th:fragment="nav(title, navbarEntries)">
     <nav class="container">
-        <!-- Will remain hardcoded due to limited scope but can be turned into a fragment like header-->
         <ul>
-            <li><strong>My Website</strong></li> <!-- to change -->
+            <li><strong th:text="${title}">Website Title</strong></li>
         </ul>
 
         <ul>

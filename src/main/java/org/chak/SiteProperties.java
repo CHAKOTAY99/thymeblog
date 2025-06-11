@@ -2,10 +2,12 @@ package org.chak;
 
 public class SiteProperties {
 
+    // Getters and Setters are required for snakeyaml
     private String templates;
     private String assets;
     private String title;
     private String baseUrl;
+    private String copyright;
 
     public SiteProperties() {
         // no arg constructor for snakeyaml
@@ -41,5 +43,13 @@ public class SiteProperties {
 
     public void setBaseUrl(final String baseUrl) {
         this.baseUrl = baseUrl;
+    }
+
+    public String getCopyright() {
+        return copyright;
+    }
+
+    public void setCopyright(final String copyright) {
+        this.copyright = copyright;
     }
 }
