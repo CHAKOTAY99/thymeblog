@@ -19,6 +19,14 @@ public class MetadataBuilder {
         this.markdownProcessor = markdownProcessor;
     }
 
+    /**
+     * This method is used to go through all the files and extract all the metadata and html content
+     * This is better than iterating through all the files during processing. Instead, we just process the metadata.
+     *
+     * @param sourcePath - where to locate the files
+     * @param siteProperties - properties to indicate which sub-directories to skip
+     * @return List of metadata with their respective html contents
+     */
     public List<MarkdownPage> compile(final Path sourcePath,
                                       final SiteProperties siteProperties) {
 

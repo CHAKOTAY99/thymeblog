@@ -17,11 +17,14 @@ public class PageBuilder {
     }
 
     /**
-     * Handles building the pages by going through the provided metadata
+     * Handles building the pages by going through the provided metadata and goes through all non-index posts
      *
-     * @param srcOutputDir - where to output the files
+     * @param destinationPath - where to write the file to
+     * @param markdownPageList - all the processed markdown files and their respective html
+     * @param navbarEntries - contents of navbar
+     * @param siteProperties - site properties
      */
-    public void buildPagesFromMetadata(final Path srcOutputDir,
+    public void buildPagesFromMetadata(final Path destinationPath,
                                        final List<MarkdownPage> markdownPageList,
                                        final List<NavbarEntry> navbarEntries,
                                        final SiteProperties siteProperties) {
@@ -44,7 +47,7 @@ public class PageBuilder {
             final String html = templateEngine.process(markdownPage.metadata().template(), context);
 
             try {
-                final Path pageOutputDir = srcOutputDir.resolve(markdownPage.metadata().sourcePath());
+                final Path pageOutputDir = destinationPath.resolve(markdownPage.metadata().sourcePath());
                 final Path finalOutputDir = pageOutputDir.resolveSibling(markdownPage.metadata().slug());
                 Files.createDirectories(finalOutputDir.getParent());
                 Files.writeString(finalOutputDir, html);

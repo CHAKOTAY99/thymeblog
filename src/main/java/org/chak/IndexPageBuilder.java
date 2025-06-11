@@ -24,9 +24,15 @@ public class IndexPageBuilder {
 
     /**
      * Handles building the indexes through the provided metadata
-     * and creates a list of links to the .md files relative to the parent path. They are all then placed in a .html page
+     * Each Index has a list of links to the files located in their sub-directory
+     * The files are searched by using the parent directory from the metadata located in {@param markdownPageList}
+     *
+     * @param destinationPath - used to determine where to write the file
+     * @param markdownPageList - the metadata and html content of each page
+     * @param navbarEntries - contents of the navigation bar
+     * @param siteProperties - properties file
      */
-    public void compileIndexes(final Path srcOutputDir,
+    public void compileIndexes(final Path destinationPath,
                                final List<MarkdownPage> markdownPageList,
                                final List<NavbarEntry> navbarEntries,
                                final SiteProperties siteProperties) {
@@ -76,7 +82,7 @@ public class IndexPageBuilder {
 
 
             try {
-                final Path finalPath = Paths.get(srcOutputDir.resolve(index.metadata().sourcePath()).toString().replace(".md", ".html"));
+                final Path finalPath = Paths.get(destinationPath.resolve(index.metadata().sourcePath()).toString().replace(".md", ".html"));
                 Files.createDirectories(finalPath.getParent());
                 Files.writeString(finalPath, html);
             } catch (final IOException e) {
