@@ -61,8 +61,7 @@ public class IndexPageBuilder {
             }
             for (final MarkdownPage pageInIndexDirectory : pagesInIndexDirectory) {
                 final Metadata metadata = pageInIndexDirectory.metadata();
-                final String sourcePath = '/' + metadata.sourcePath().getParent().resolve(metadata.slug()).toString(); // TODO needs fixing - appending / for now
-                links.add(Map.of("href", sourcePath,
+                links.add(Map.of("href", metadata.urlPath(),
                         "title", metadata.title(),
                         "description", metadata.description(),
                         "date", metadata.date().toString(),

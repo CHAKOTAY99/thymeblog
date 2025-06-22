@@ -1,6 +1,7 @@
 package org.chak;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.util.Locale;
 
@@ -28,10 +29,17 @@ public class SlugUtil {
     }
 
     // TODO most likely should not be a utility class
-    // TODO Must be fixed for index due to source folder
     public static String createCanonicalUrl(final String slug,
                                             final String siteUrl,
+                                            final Path sourcePath,
+                                            final String directoryName) {
+        return String.format("%s%s", siteUrl, Paths.get(sourcePath.toString().replace(directoryName, "")).resolveSibling(slug)); // Could be improved not to use string manipulation
+    }
+
+    // TODO most likely should not be a utility class
+    public static String createUrlPath(final String slug,
+                                            final String directoryName,
                                             final Path sourcePath) {
-        return String.format("%s%s", siteUrl, sourcePath.resolveSibling(slug).normalize());
+        return Paths.get(sourcePath.toString().replace(directoryName, "")).resolveSibling(slug).toString(); // Could be improved not to use string manipulation
     }
 }

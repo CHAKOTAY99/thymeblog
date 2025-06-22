@@ -8,6 +8,7 @@ public class SiteProperties {
     private String title;
     private String baseUrl;
     private String copyright;
+    private String directoryName;
 
     public SiteProperties() {
         // no arg constructor for snakeyaml
@@ -51,5 +52,13 @@ public class SiteProperties {
 
     public void setCopyright(final String copyright) {
         this.copyright = copyright;
+    }
+
+    public String getDirectoryName() {
+        return directoryName;
+    }
+
+    public void setDirectoryName(final String directoryName) {
+        this.directoryName = directoryName;
     }
 }

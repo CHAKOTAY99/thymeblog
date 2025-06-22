@@ -19,7 +19,8 @@ public record Metadata(String title,
                        boolean index,
                        Path sourcePath,
                        Path outputPath,
-                       String canonicalUrl) {
+                       String canonicalUrl,
+                       String urlPath) {
 
     public static Metadata parseFromYaml(final Map<String, List<String>> extractedMetadata) {
         final String title = getElement(extractedMetadata, "title");
@@ -44,6 +45,7 @@ public record Metadata(String title,
                 index,
                 null,
                 null,
+                null,
                 null);
     }
 
@@ -54,8 +56,8 @@ public record Metadata(String title,
         final Metadata metadata = parseFromYaml(extractedMetadata);
 
         final Path outputPath = sourcePath.relativize(filePath);
-        // set the slug to index.html if it is the root index page
-        final String pageSlug = outputPath.getParent() == null ? "index.html" : SlugUtil.slugify(metadata.title());
+        // set the slug to index.html if it is an index
+        final String pageSlug = metadata.index() ? "index.html" : SlugUtil.slugify(metadata.title());
         return new Metadata(metadata.title(),
                 metadata.description(),
                 metadata.author(),
@@ -67,7 +69,8 @@ public record Metadata(String title,
                 metadata.index(),
                 filePath,
                 outputPath,
-                SlugUtil.createCanonicalUrl(pageSlug, siteProperties.getBaseUrl(), filePath));
+                SlugUtil.createCanonicalUrl(pageSlug, siteProperties.getBaseUrl(), filePath, siteProperties.getDirectoryName()),
+                SlugUtil.createUrlPath(pageSlug, siteProperties.getDirectoryName(), filePath));
     }
 
     /**

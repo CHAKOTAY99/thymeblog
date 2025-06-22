@@ -28,6 +28,7 @@ Although required in the properties.yaml file, a generated site could be made wi
 CSS, Templates and Markdown need to be provided in accordance to the project structure ideally in their own separate folders as shown in the reference.
 Assets (such as CSS) and templates must have the directory listed in the properties.yaml file.
 Assets will be copied in their entirety to the target directory and currently there is no functionality for compression.
+It is also important to provide the name of the directory containing the entire site contents. This is so that it is not included in the urls
 
 The program requires an index file to be provided at the root of the project and for any sub-directory containing markdown files.
 
@@ -37,6 +38,9 @@ Metadata is required in each file to function and none are optional.
 
 The contents of the markdown files can link to any asset in the asset folders. Links to other pages may be in HTML format or canonical links.
 The result of the program should always be the same.
+
+## What to pass to the webserver
+The resulting folder is not to be used, instead please use the subdirectory provided.
 
 ## Basic General Flow
 

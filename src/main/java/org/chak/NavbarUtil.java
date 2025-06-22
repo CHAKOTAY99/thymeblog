@@ -16,7 +16,7 @@ public class NavbarUtil {
         final List<NavbarEntry> navbarEntries = new ArrayList<>();
 
         for (final MarkdownPage page : indexes) {
-            navbarEntries.add(new NavbarEntry(page.metadata().title(), '/' + page.metadata().sourcePath().toString().replace(".md", ".html"))); // hardcoded '/'
+            navbarEntries.add(new NavbarEntry(page.metadata().title(), page.metadata().urlPath()));
         }
         return navbarEntries;
     }
