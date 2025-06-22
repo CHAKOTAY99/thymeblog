@@ -56,7 +56,7 @@ public class IndexPageBuilder {
             } else {
                 pagesInIndexDirectory = markdownPageList.stream()
                         .filter(page -> !indexes.contains(page))
-                        .filter(page -> page.metadata().outputPath().toString().contains(index.metadata().outputPath().getParent().toString()))
+                        .filter(page -> page.metadata().outputPath().getParent().toString().contains(index.metadata().outputPath().getParent().toString()))
                         .toList();
             }
             for (final MarkdownPage pageInIndexDirectory : pagesInIndexDirectory) {

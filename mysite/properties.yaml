@@ -1,5 +1,5 @@
-templates: mysite/templates/    # Place your thymeleaf templates here
-assets: mysite/assets/          # Place your assets here (css, images, favicons)
+templates: mysite/templates/    # Place your thymeleaf templates here ex. <directoryname>/templates
+assets: mysite/assets/          # Place your assets here (css, images, favicons) ex. <directoryname>/assets - templates must be hardcoded to css
 title: My Static Blog           # Site title
 baseUrl: https://example.com/   # Base Url for canonical URLs ex. https://www.example.com/
 copyright: Your Name            # Copyright
